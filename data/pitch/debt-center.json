@@ -1,0 +1,146 @@
+{
+  "source_image": "before/flight-finder-pro-concept.png",
+  "note": "Debt Center landing page copy focused on empathetic, practical, and direct communication for individuals managing significant debt.",
+  "eyebrow": "Debt relief options assistance",
+  "hero": "Take control of your debt. Talk to an expert.",
+  "hero_accent_words": 4,
+  "bullets": [
+    {
+      "b": "One private conversation.",
+      "s": "Speak with a knowledgeable professional who understands the stress of managing debt."
+    },
+    {
+      "b": "Clear and practical options.",
+      "s": "Get information about available debt relief paths without the confusing industry jargon."
+    },
+    {
+      "b": "Empathetic guidance.",
+      "s": "We take the time to listen to your specific situation and answer your questions plainly."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Experienced debt specialists",
+    "Empathetic support",
+    "Clear option explanations",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "A calm way to explore options",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "Debt Center",
+    "good": [
+      "One phone call",
+      "Experienced debt specialist",
+      "Options explained for you",
+      "Straightforward answers",
+      "Support through your decision"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of confusing websites",
+      "Unclear program details",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Debt Center?",
+    "title": "We do the research. You choose the path.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a specialist who listens to your financial situation."
+      ],
+      [
+        "Save your valuable time",
+        "Skip the tedious clicking and reading across different financial websites."
+      ],
+      [
+        "Clear path options",
+        "Hear how different debt relief options work explained in plain language."
+      ],
+      [
+        "Tailored to your needs",
+        "Get information matched to your specific debt goals and peace of mind."
+      ],
+      [
+        "Help with details",
+        "Avoid confusion with guided explanations of how debt relief programs function."
+      ],
+      [
+        "Step by step assistance",
+        "Receive hands on support from your initial question through your final decision."
+      ],
+      [
+        "Straightforward answers",
+        "Ask questions directly and get immediate clarity before you decide anything."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How our assistance works",
+    "title": "Exploring your options in four simple steps.",
+    "items": [
+      [
+        "Tell us your situation",
+        "Share what you are looking to accomplish with your debt."
+      ],
+      [
+        "We review the options",
+        "Your specialist checks available programs that meet your criteria."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the path that fits your financial needs best."
+      ],
+      [
+        "Complete your plan",
+        "We walk you through the process right over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human assistance without the runaround.",
+    "body": "Managing debt does not have to mean wrestling with complicated screens. When you call, you speak with a real person dedicated to finding options that match your financial needs.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the screen fatigue. Explore by phone.",
+    "accent_words": 4,
+    "sub": "Our specialists are ready to help Monday to Friday, 9am to 6pm EST.",
+    "form_title": "Need assistance with your debt options?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What hours are your specialists available?",
+      "Our specialists are available by phone Monday through Friday from 9am to 6pm EST."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Simply have your questions ready and any specific concerns regarding your debt."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak directly with a debt specialist who handles program inquiries."
+    ],
+    [
+      "Can you help with specific questions?",
+      "Yes. Our team can help explain how debt relief options work and how they may fit your needs."
+    ]
+  ],
+  "disclaimer": "Debt relief programs and availability are subject to eligibility and state regulations."
+}

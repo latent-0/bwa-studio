@@ -1,0 +1,69 @@
+{
+  "source_image": "before/flight-finder-pro-concept.png",
+  "note": "Pitch read from the reference image. Edit any line here and hit Generate.",
+  "eyebrow": "Personal flight booking service",
+  "hero": "Stop searching. Start booking.",
+  "hero_accent_words": 2,
+  "bullets": [
+    {"b": "One call, trip booked."},
+    {"b": "Free service.", "s": "The airlines pay us."},
+    {"b": "Talk to a real travel expert.", "s": "We take care of the rest."}
+  ],
+  "cta": "Call now",
+  "badges": ["Real people, real service", "All major airlines", "Secure and reliable", "Free service"],
+  "compare": {
+    "eyebrow": "The easy way to book",
+    "title": "One phone call, or twenty seven tabs.",
+    "good_title": "Flight Finder Pro",
+    "good": ["One phone call", "Friendly travel expert", "We search for you", "Booked in minutes", "Free service"],
+    "good_stat": "1", "good_label": "phone call",
+    "bad_title": "Searching online",
+    "bad": ["27 browser tabs", "Prices keep changing", "Confusing options", "Hours comparing", "Still not sure"],
+    "bad_stat": 27, "bad_label": "browser tabs open"
+  },
+  "reasons": {
+    "eyebrow": "Why call Flight Finder Pro?",
+    "title": "We do the work. You pick the seat.",
+    "items": [
+      ["Talk to a real person", "A friendly travel expert picks up, listens to your trip and takes it from there."],
+      ["We find the best flights for you", "Matched to your trip."],
+      ["We search all the airlines for you", "One conversation instead of an evening of tabs."],
+      ["We find the best deals for you", "Compared for you."],
+      ["We find the best schedule for you", "Times that fit your plans."],
+      ["We find the best connections for you", "Smooth routes, fewer headaches."],
+      ["Book it right the first time", "Everything confirmed before you hang up."]
+    ]
+  },
+  "steps": {
+    "eyebrow": "We do the searching",
+    "title": "You do the traveling.",
+    "items": [
+      ["Tell us about your trip", "Where you want to go and roughly when."],
+      ["We handle the search", "We look across the airlines so you do not have to."],
+      ["We compare the options", "You hear the best choices in plain language."],
+      ["We help you book", "Your agent finishes the booking with you on the phone."],
+      ["Free service", "You pay nothing for our service. The airlines pay us."]
+    ]
+  },
+  "free": {
+    "eyebrow": "Why is it free?",
+    "title": "Airlines pay us. You pay nothing for our service.",
+    "body": "Airlines compensate travel partners when bookings are completed. That means you get <b>personal service from a real travel expert</b> at no cost for our service.",
+    "nos": ["No booking fee", "No membership", "No subscription", "No service charge"],
+    "cta": "Speak with an agent now"
+  },
+  "close": {
+    "title": "Stop searching. Start booking.",
+    "accent_words": 2,
+    "sub": "Talk to a real travel expert now. Free personal flight booking service.",
+    "form_title": "Prefer a call back?",
+    "form_cta": "Speak with an agent now"
+  },
+  "faq": [
+    ["What does it cost?", "There is no charge for our service. No booking fee, membership, subscription or service charge."],
+    ["How can it be free?", "Airlines compensate travel partners when bookings are completed, so you do not pay for our service."],
+    ["What do I need when I call?", "Just where you want to go and roughly when. Flexible dates can help your agent find better options."],
+    ["Who will I speak with?", "A real travel expert who searches the airlines for you and helps you book."]
+  ],
+  "disclaimer": "Fares and availability are subject to change."
+}

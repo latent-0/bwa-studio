@@ -1,0 +1,146 @@
+{
+  "source_image": "before/flight-finder-pro-concept.png",
+  "note": "Pitch read from the reference image. Edit any line here and hit Generate.",
+  "eyebrow": "Personal flight booking assistance",
+  "hero": "Skip the flight search. Talk to an expert.",
+  "hero_accent_words": 4,
+  "bullets": [
+    {
+      "b": "One quick call.",
+      "s": "Share your trip details and let a live specialist do the work."
+    },
+    {
+      "b": "Personal booking guidance.",
+      "s": "Get clear flight choices without juggling dozens of tabs."
+    },
+    {
+      "b": "Friendly and direct.",
+      "s": "Speak with someone who listens to your schedule and preferences."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Dedicated flight specialist",
+    "Major airline routes",
+    "Clear travel schedules",
+    "Direct phone support"
+  ],
+  "compare": {
+    "eyebrow": "A simpler way to fly",
+    "title": "One helpful conversation beats endless searching.",
+    "good_title": "Flight Finder Pro",
+    "good": [
+      "One phone call",
+      "Dedicated travel specialist",
+      "Routes compared for you",
+      "Straightforward options",
+      "Help through final booking"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of open browser tabs",
+      "Confusing layover times",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Flight Finder Pro?",
+    "title": "We do the research. You choose the trip.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with an experienced specialist who listens to your travel preferences."
+      ],
+      [
+        "Save your valuable time",
+        "Skip the tedious clicking, filtering, and cross checking across different websites."
+      ],
+      [
+        "Clear route options",
+        "Hear practical flight times, connections, and schedules explained plainly."
+      ],
+      [
+        "Tailored to your plans",
+        "Get itineraries matched to your specific dates, preferred airports, and timing."
+      ],
+      [
+        "Help with connections",
+        "Avoid tight layovers and awkward transfers with guided route selection."
+      ],
+      [
+        "Step by step assistance",
+        "Receive hands on support from your initial question through your completed reservation."
+      ],
+      [
+        "Straightforward answers",
+        "Ask questions directly and get immediate clarity before you make any decision."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How our assistance works",
+    "title": "Booking your flight in four simple steps.",
+    "items": [
+      [
+        "Tell us about your trip",
+        "Share your departure city, destination, and target travel dates."
+      ],
+      [
+        "We review the flight schedules",
+        "Your specialist checks route choices across multiple flight options."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the schedule and departure time that fits your day best."
+      ],
+      [
+        "Complete your booking",
+        "We walk you through confirming your trip right over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Personal support you can count on",
+    "title": "Real human assistance without the runaround.",
+    "body": "Planning air travel does not have to mean wrestling with complicated screens. When you call, you speak with a real person dedicated to finding itineraries that match your schedule.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the screen fatigue. Book your flight by phone.",
+    "accent_words": 4,
+    "sub": "Our flight specialists are ready to help Monday to Friday, 9am to 6pm EST.",
+    "form_title": "Need assistance with an upcoming trip?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What hours are your specialists available?",
+      "Our flight specialists are available by phone Monday through Friday from 9am to 6pm EST."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Simply have your departure city, destination, approximate travel dates, and any preferences regarding timing or airlines."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak directly with a dedicated travel specialist who handles flight route searches and booking assistance."
+    ],
+    [
+      "Can you help with complex itineraries?",
+      "Yes. Our team can help look into multi city travel, specific layover requirements, and round trip schedules."
+    ]
+  ],
+  "disclaimer": "Fares, airline schedules, and seat availability are subject to change by the airlines."
+}

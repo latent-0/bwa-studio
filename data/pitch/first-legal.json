@@ -1,0 +1,146 @@
+{
+  "source_image": "before/flight-finder-pro-concept.png",
+  "note": "First Legal landing page copy focused on providing clarity and professional guidance for individuals navigating legal situations after an accident or injury.",
+  "eyebrow": "Legal options assistance",
+  "hero": "Understand your legal options. Talk to our team.",
+  "hero_accent_words": 4,
+  "bullets": [
+    {
+      "b": "One private conversation.",
+      "s": "Speak with a professional who listens to the details of your situation."
+    },
+    {
+      "b": "Clear and practical information.",
+      "s": "Get information about your potential next steps without the confusing legal jargon."
+    },
+    {
+      "b": "Respectful guidance.",
+      "s": "We take the time to hear your story and answer your questions plainly."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Experienced support team",
+    "Respectful guidance",
+    "Clear option explanations",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "A calm way to explore options",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "First Legal",
+    "good": [
+      "One phone call",
+      "Experienced support specialist",
+      "Options explained for you",
+      "Straightforward answers",
+      "Support through your decision"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of confusing websites",
+      "Unclear legal information",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call First Legal?",
+    "title": "We do the research. You choose the path.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a specialist who listens to your situation."
+      ],
+      [
+        "Save your valuable time",
+        "Skip the tedious clicking and reading across different websites."
+      ],
+      [
+        "Clear path options",
+        "Hear how different legal options work explained in plain language."
+      ],
+      [
+        "Tailored to your needs",
+        "Get information matched to your specific circumstances."
+      ],
+      [
+        "Help with details",
+        "Avoid confusion with guided explanations of how processes function."
+      ],
+      [
+        "Step by step assistance",
+        "Receive hands on support from your initial question through your decision."
+      ],
+      [
+        "Straightforward answers",
+        "Ask questions directly and get immediate clarity before you decide anything."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How our assistance works",
+    "title": "Exploring your options in four simple steps.",
+    "items": [
+      [
+        "Tell us your situation",
+        "Share what you are looking to accomplish."
+      ],
+      [
+        "We review the options",
+        "Your specialist checks available paths that meet your criteria."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the path that fits your needs best."
+      ],
+      [
+        "Complete your plan",
+        "We walk you through the process right over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human assistance without the runaround.",
+    "body": "Navigating a legal situation does not have to mean wrestling with complicated screens. When you call, you speak with a real person dedicated to finding options that match your needs.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the screen fatigue. Explore by phone.",
+    "accent_words": 4,
+    "sub": "Our specialists are ready to help Monday to Friday, 9am to 6pm EST.",
+    "form_title": "Need assistance with your legal options?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What hours are your specialists available?",
+      "Our specialists are available by phone Monday through Friday from 9am to 6pm EST."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Simply have your questions ready and any specific concerns regarding your situation."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak directly with a specialist who handles inquiries."
+    ],
+    [
+      "Can you help with specific questions?",
+      "Yes. Our team can help explain how legal options work and how they may fit your needs."
+    ]
+  ],
+  "disclaimer": "Legal options and availability are subject to eligibility and state regulations. We do not guarantee results or compensation."
+}

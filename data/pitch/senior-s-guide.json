@@ -1,0 +1,146 @@
+{
+  "source_image": "before/flight-finder-pro-concept.png",
+  "note": "Pitch read from the reference image. Edit any line here and hit Generate.",
+  "eyebrow": "Insurance coverage guidance",
+  "hero": "Simplify your insurance. Talk to an expert.",
+  "hero_accent_words": 4,
+  "bullets": [
+    {
+      "b": "One quick call.",
+      "s": "Share your coverage needs and let a licensed agent do the work."
+    },
+    {
+      "b": "Personal insurance guidance.",
+      "s": "Get clear explanations of your options without juggling dozens of tabs."
+    },
+    {
+      "b": "Friendly and direct.",
+      "s": "Speak with someone who listens to your specific situation and preferences."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Licensed insurance agent",
+    "Auto and home options",
+    "Clear coverage explanations",
+    "Direct phone support"
+  ],
+  "compare": {
+    "eyebrow": "A simpler way to compare",
+    "title": "One helpful conversation beats endless searching.",
+    "good_title": "Senior's Guide",
+    "good": [
+      "One phone call",
+      "Dedicated licensed agent",
+      "Options compared for you",
+      "Straightforward explanations",
+      "Help through your questions"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of open browser tabs",
+      "Confusing policy language",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Senior's Guide?",
+    "title": "We do the research. You choose the coverage.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a licensed agent who listens to your insurance needs."
+      ],
+      [
+        "Save your valuable time",
+        "Skip the tedious clicking, filtering, and cross checking across different websites."
+      ],
+      [
+        "Clear policy options",
+        "Hear practical coverage details and plan types explained plainly."
+      ],
+      [
+        "Tailored to your plans",
+        "Get options matched to your specific household and coverage requirements."
+      ],
+      [
+        "Help with comparisons",
+        "Avoid confusion with guided explanations of different policy features."
+      ],
+      [
+        "Step by step assistance",
+        "Receive hands on support from your initial question through your final decision."
+      ],
+      [
+        "Straightforward answers",
+        "Ask questions directly and get immediate clarity before you make any decision."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How our assistance works",
+    "title": "Comparing your options in four simple steps.",
+    "items": [
+      [
+        "Tell us your needs",
+        "Share what type of coverage you are looking to compare."
+      ],
+      [
+        "We review the options",
+        "Your agent checks available coverage choices for your situation."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the policy and coverage level that fits your life best."
+      ],
+      [
+        "Get your questions answered",
+        "We walk you through the details right over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Personal support you can count on",
+    "title": "Real human assistance without the runaround.",
+    "body": "Comparing insurance does not have to mean wrestling with complicated screens. When you call, you speak with a real person dedicated to finding options that match your needs.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the screen fatigue. Compare by phone.",
+    "accent_words": 4,
+    "sub": "Our licensed agents are ready to help Monday to Friday, 9am to 6pm EST.",
+    "form_title": "Need assistance with your insurance?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What hours are your agents available?",
+      "Our licensed agents are available by phone Monday through Friday from 9am to 6pm EST."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Simply have your current coverage details and any questions regarding your insurance needs."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak directly with a licensed insurance agent who handles coverage comparisons."
+    ],
+    [
+      "Can you help with multiple types of insurance?",
+      "Yes. Our team can help look into auto, home, life, and health coverage options."
+    ]
+  ],
+  "disclaimer": "Policy terms, coverage availability, and eligibility are subject to the specific insurance carrier guidelines."
+}

@@ -1,0 +1,23 @@
+# secrets and local state: never uploaded
+data/integrations.json
+data/auth.json
+data/.auth_secret
+data/user_credentials.txt
+data/studio.db
+data/studio.db-journal
+data/metrics.jsonl
+data/video
+data/sheet
+data/cache
+.env
+.env.*
+# generated output and big local files
+out
+published
+recordings
+__pycache__
+*.pyc
+*.log
+.vercel
+record_demo.py
+record_before_after.py
