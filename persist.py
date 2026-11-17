@@ -10,7 +10,7 @@ import paths
 import store
 
 ROOT = paths.ROOT
-TREES = ["out", "published", "before", "data/pitch", "data/snippets", "data/sheet", "data/cache"]
+TREES = ["out", "published", "before", "data/pitch", "data/snippets", "data/sheet", "data/cache", "data/wording"]
 SINGLES = ["brands.csv", "data/legal.json"]
 SKIP = (".part", ".tmp")
 CHECK_EVERY = 2.0

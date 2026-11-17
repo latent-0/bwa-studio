@@ -534,6 +534,8 @@ def _build_from_pitch(brand, pitch, t0):
     d = OUT / slug
     d.mkdir(parents=True, exist_ok=True)
     (d / "index.html").write_text(page, encoding="utf-8")
+    import wording
+    wording.after_build(slug)
     n = build_compliance(brand)
     variants = build_variants(brand)
     rec = {"ts": time.strftime("%Y-%m-%d %H:%M:%S"), "slug": slug, "seconds": round(time.time() - t0, 2), "source": "pitch from reference image",
@@ -649,6 +651,8 @@ def build_page(brand, prompt):
     d = OUT / slug
     d.mkdir(parents=True, exist_ok=True)
     (d / "index.html").write_text(page, encoding="utf-8")
+    import wording
+    wording.after_build(slug)
     n = build_compliance(brand)
     variants = build_variants(brand)
     secs = round(time.time() - t0, 2)

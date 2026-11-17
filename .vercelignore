@@ -22,3 +22,5 @@ __pycache__
 record_demo.py
 record_before_after.py
 .preview
+data/wording
+data/legal.json

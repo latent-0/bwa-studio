@@ -21,6 +21,7 @@ import publish
 import ui2
 import ui_board
 import ui_pages
+import ui_review
 import video
 from ui import dashboard, studio
 from ui_auth import login_page
@@ -191,6 +192,10 @@ class H(BaseHTTPRequestHandler):
                 return self.send(200, ui_pages.pages_page())
             if parts == ["ops"]:
                 return self.send(200, ui2.ops_page(int(query.get("days", 14))))
+            if parts == ["review"]:
+                return self.send(200, ui_review.list_page())
+            if parts[0] == "review" and len(parts) == 2:
+                return self.send(200, ui_review.review_page(parts[1]))
             if parts == ["crm"]:
                 return self.send(200, ui2.crm_page())
             if parts == ["integrations"]:

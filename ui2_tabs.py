@@ -66,6 +66,7 @@ STUDIO2_JS = r"""<script>
   function compl(){J('/api/compliance/'+slug).then(function(x){
     var c=x.j,h='';
     h+='<div class="banner '+(c.approved?'live':'')+'"><div class="grow"><b>'+esc(c.label)+'</b><small>Every flagged claim must be cleared by counsel and signed off before this brand can go live. If the page text changes, approval goes stale.</small></div>';
+    h+='<a class="btn primary" href="/review/'+slug+'">Review the wording</a>';
     if(c.approved){h+='<button class="btn" data-a="revoke">Revoke approval</button>';}
     h+='</div>';
     if(c.state==='not_generated'){$('pn-compliance').innerHTML=h+'<div class="empty">Generate the page first.</div>';return;}

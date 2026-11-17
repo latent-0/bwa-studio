@@ -94,7 +94,32 @@ def get(parts, query=None):
         return 200, {**media.for_brand(parts[2]), "library": media.library(parts[2]), "hero_video": core.get_brand(parts[2])["hero_video"], "serverless": paths.SERVERLESS}
     if parts[:3] == ["api", "media", "progress"] and len(parts) == 5:
         return 200, media.progress(parts[3], parts[4])
+    if parts == ["api", "review"]:
+        return 200, review_list()
+    if parts[:2] == ["api", "review"] and len(parts) == 3:
+        return 200, review_payload(parts[2])
     return None
+
+
+def review_list():
+    import wording
+    out = []
+    for b in core.load_brands():
+        st = compliance.status(b["slug"])
+        d = wording.load(b["slug"])
+        out.append({"slug": b["slug"], "name": b["name"], "vertical": b["vertical"], "color": b["accent_color"] or b["primary_color"] or "#6b8cff",
+                    "state": st["state"], "label": st["label"], "open": st["open"], "flags": len(st["hits"]), "edits": len(d["edits"]),
+                    "reviewed": st["reviewed"]})
+    return out
+
+
+def review_payload(slug):
+    import wording
+    b = core.get_brand(slug)
+    blks, unmatched = wording.blocks(slug)
+    loose = wording.flags_by_block(slug, blks) if blks else []
+    return {"slug": slug, "name": b["name"], "status": compliance.status(slug), "blocks": blks, "unmatched": unmatched, "loose_flags": loose,
+            "live": publish.live_status(slug)["live"], "who": auth.who() or ""}
 
 
 def post(path, d):
@@ -110,6 +135,30 @@ def post(path, d):
             st = compliance.review(s, d.get("reviewer", ""), d.get("note", ""))
             integrations.refresh_stage(s)
             return 200, st
+        if path == "/api/review/save":
+            import wording
+            by = auth.who() or (d.get("by") or "").strip()
+            if not by:
+                raise ValueError("Enter your name so the review is recorded against you.")
+            n = wording.save(s, d.get("edits") or [], by)
+            present = {h["id"] for h in compliance.scan(s)}
+            for hid in d.get("clear") or []:
+                if hid in present:
+                    compliance.clear(s, hid, by, True)
+            msg = f"Saved {n} wording change{'s' if n != 1 else ''}." if n else "No wording changes."
+            if d.get("approve"):
+                try:
+                    compliance.review(s, by, d.get("note", ""))
+                    msg += " Signed off."
+                except ValueError as ex:
+                    integrations.refresh_stage(s)
+                    return 400, {**review_payload(s), "ok": False, "error": msg + " Not signed off yet: " + str(ex)}
+            integrations.refresh_stage(s)
+            return 200, {**review_payload(s), "ok": True, "message": msg, "changed": n}
+        if path == "/api/review/forget":
+            import wording
+            wording.forget(s, d.get("original", ""), auth.who() or d.get("by") or "reviewer")
+            return 200, review_payload(s)
         if path == "/api/legal/revoke":
             compliance.revoke(s)
             integrations.refresh_stage(s)

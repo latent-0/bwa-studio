@@ -19,3 +19,5 @@ __pycache__
 *.log
 .vercel
 .preview
+data/wording
+data/legal.json
