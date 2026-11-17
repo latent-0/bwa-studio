@@ -70,6 +70,8 @@ ui.CSS = ui.CSS + CSS2
 STAGE_CLASS = {"Live": "ok", "Ready to launch": "ok", "Ready to test": "acc", "Legal review": "warn", "Generated": "", "Draft": "", "Paused": "bad"}
 NEXT = {"page": "Generate the page", "tracking": "Regenerate to add the tracking script", "compliance": "Regenerate to build the compliance pages",
         "buyer": "Confirm a buyer", "legal": "Clear claims and get counsel sign-off"}
+# Display names only. The stored stage names stay the same because GoHighLevel matches on them.
+STAGE_LABEL = {"New call": "New prospects"}
 DELIV_LABEL = {"calls": "Calls", "clicks": "Clicks", "leads": "Leads"}
 
 
@@ -171,7 +173,7 @@ def crm_page():
         for c in cols:
             cards = "".join(f'<div class="kcard"><b>{e(o["name"])}</b><span>{("$%.0f &middot; " % o["value"]) if o["value"] else ""}{e(o["updated"][5:16])}</span></div>' for o in c["items"][:30])
             more = f'<span class="mut" style="font-size:12px">+{len(c["items"]) - 30} more</span>' if len(c["items"]) > 30 else ""
-            cc += f'<div class="kcol"><h4><span>{e(c["stage"])}</span><span>{len(c["items"])}</span></h4>{cards}{more}</div>'
+            cc += f'<div class="kcol"><h4><span>{e(STAGE_LABEL.get(c["stage"], c["stage"]))}</span><span>{len(c["items"])}</span></h4>{cards}{more}</div>'
         panels += f'<div class="pn" data-p="{i}" style="display:{"block" if i == 0 else "none"}"><div class="kanban">{cc}</div></div>'
     mode = ('<span class="chip2 ok">Live</span>' if m == "live" else '<span class="chip2 warn">Sandbox</span>')
     note = ("" if m == "live" else '<p class="note2">Sandbox CRM: these records live in the studio database and mimic GoHighLevel. Add GHL_TOKEN and GHL_LOCATION_ID on the Integrations page to write to your real location. You will need the three pipelines below with these exact stage names.</p>')
