@@ -177,7 +177,10 @@ STUDIO2_JS = r"""<script>
     });})();
   }
 
-  function activity(){J('/api/events/'+slug).then(function(x){var ev=x.j;$('pn-activity').innerHTML='<h2>Recent activity</h2>'+(ev.length?'<table class="tbl"><tbody>'+ev.map(function(e2){return '<tr><td class="mut" style="white-space:nowrap">'+esc(e2.ts)+'</td><td><b>'+esc(e2.kind)+'</b><div class="ctx">'+esc(e2.detail)+'</div></td><td class="mut">'+esc(e2.actor)+'</td></tr>';}).join('')+'</tbody></table>':'<div class="empty">No activity yet.</div>');});}
+  function activity(){J('/api/history?slug='+encodeURIComponent(slug)+'&auto=1&limit=40').then(function(x){var ev=x.j.events||[];
+    var h='<h2 style="display:flex;justify-content:space-between;align-items:center"><span>Recent activity</span><a class="btn" href="/history?slug='+encodeURIComponent(slug)+'&auto=1" style="letter-spacing:0;text-transform:none">Full history</a></h2>';
+    $('pn-activity').innerHTML=h+(ev.length?'<table class="tbl"><tbody>'+ev.map(function(e2){var d=new Date(String(e2.ts).replace(' ','T')+'Z');
+      return '<tr><td class="mut" style="white-space:nowrap;font-family:var(--fm);font-size:12px">'+esc(d.toLocaleString(undefined,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))+'</td><td><b style="font-weight:500">'+esc(e2.summary)+'</b>'+(e2.note?'<div class="ctx">'+esc(e2.note)+'</div>':'')+(e2.changes&&e2.changes.length?'<div class="ctx">'+e2.changes.length+' wording change'+(e2.changes.length===1?'':'s')+', see Full history for before and after</div>':'')+'</td><td class="mut" style="white-space:nowrap">'+esc(e2.actor==='system'?'System':e2.actor)+'</td></tr>';}).join('')+'</tbody></table>':'<div class="empty">No activity yet.</div>');});}
 
   document.addEventListener('click',function(ev){
     var t=ev.target.closest('[data-a]'); if(!t){return;} var a=t.getAttribute('data-a'), id=t.getAttribute('data-id');

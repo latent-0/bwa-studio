@@ -178,6 +178,13 @@ def xmany(sql, rows):
 
 
 def log_event(slug, kind, detail="", actor="studio"):
+    """Record what happened for the history. Actions taken in a signed-in request are credited to that person; anything else is the system."""
+    if actor in (None, "", "studio"):
+        try:
+            import auth
+            actor = auth.who() or "system"
+        except Exception:
+            actor = "system"
     x("insert into events(ts,slug,kind,actor,detail) values(?,?,?,?,?)", (now(), slug, kind, actor, detail if isinstance(detail, str) else json.dumps(detail)))
 
 

@@ -22,6 +22,7 @@ import ui2
 import ui_board
 import ui_pages
 import ui_review
+import ui_history
 import video
 from ui import dashboard, studio
 from ui_auth import login_page
@@ -192,6 +193,13 @@ class H(BaseHTTPRequestHandler):
                 return self.send(200, ui_pages.pages_page())
             if parts == ["ops"]:
                 return self.send(200, ui2.ops_page(int(query.get("days", 14))))
+            if parts == ["history"]:
+                return self.send(200, ui_history.history_page())
+            if parts == ["api", "history.csv"]:
+                import history
+                stamp = time.strftime("%Y-%m-%d")
+                return self.send(200, history.to_csv(query), "text/csv; charset=utf-8",
+                                 {"Content-Disposition": f'attachment; filename="studio-history-{stamp}.csv"'})
             if parts == ["review"]:
                 return self.send(200, ui_review.list_page())
             if parts[0] == "review" and len(parts) == 2:

@@ -75,9 +75,16 @@ def status(slug):
         state, label = "needs_review", "Needs counsel sign-off"
     elif rev.get("claims_hash") != h:
         state, label = "stale", "Claims changed since review"
+    elif rev.get("wording_hash") is not None and rev["wording_hash"] != _wording_fp(slug):
+        state, label = "stale", "Wording edited since sign-off"
     else:
         state, label = "approved", f"Approved by {rev['by']} on {rev['date']}"
     return {"state": state, "hits": hits, "open": open_n, "reviewed": rev, "approved": state == "approved", "label": label}
+
+
+def _wording_fp(slug):
+    import wording
+    return wording.fingerprint(slug)
 
 
 def is_approved(slug):
@@ -94,7 +101,9 @@ def clear(slug, hit_id, by="counsel", on=True):
     (c.add if on else c.discard)(hit_id)
     s["cleared"] = sorted(c)
     _save(d)
-    store.log_event(slug, "legal.claim_cleared" if on else "legal.claim_reopened", hit_id, by)
+    hit = next((h for h in scan(slug) if h["id"] == hit_id), {})
+    store.log_event(slug, "legal.claim_cleared" if on else "legal.claim_reopened",
+                    {"id": hit_id, "phrase": hit.get("phrase", ""), "category": hit.get("category", ""), "context": hit.get("context", "")}, by)
 
 
 def clear_all(slug, by="counsel"):
@@ -102,7 +111,7 @@ def clear_all(slug, by="counsel"):
     s = d.setdefault(slug, {})
     s["cleared"] = sorted({h["id"] for h in scan(slug)})
     _save(d)
-    store.log_event(slug, "legal.claims_cleared_all", str(len(s["cleared"])), by)
+    store.log_event(slug, "legal.claims_cleared_all", {"count": len(s["cleared"])}, by)
 
 
 def review(slug, reviewer, note=""):
@@ -115,11 +124,13 @@ def review(slug, reviewer, note=""):
     if st["open"]:
         raise ValueError(f"Clear the {st['open']} flagged claim(s) first.")
     d = _load()
-    d.setdefault(slug, {})["reviewed"] = {"by": reviewer, "date": core.time.strftime("%Y-%m-%d"), "claims_hash": _hash(st["hits"]), "note": note}
+    import wording
+    d.setdefault(slug, {})["reviewed"] = {"by": reviewer, "date": core.time.strftime("%Y-%m-%d"), "claims_hash": _hash(st["hits"]), "note": note,
+                                          "wording_hash": wording.fingerprint(slug)}
     _save(d)
     core.set_brand_field(slug, "legal_reviewed", "yes")
     core.build_compliance(core.get_brand(slug))
-    store.log_event(slug, "legal.reviewed", f"{reviewer}: {note}"[:200], reviewer)
+    store.log_event(slug, "legal.reviewed", {"note": note[:500], "claims": len(st["hits"]), "edits": wording.total_edits(wording.load(slug))}, reviewer)
     return status(slug)
 
 

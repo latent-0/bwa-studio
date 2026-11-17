@@ -60,6 +60,16 @@ def edits_for(d, page="index"):
     return d.setdefault("pages", {}).setdefault(page, {})
 
 
+def fingerprint(slug):
+    """A short hash of every wording edit on every page. Sign-off stores it; any later edit makes the sign-off stale."""
+    d = load(slug)
+    body = {"index": {k: v["text"] for k, v in d["edits"].items()}}
+    for pg, ed in d.get("pages", {}).items():
+        if ed:
+            body[pg] = {k: v["text"] for k, v in ed.items()}
+    return hashlib.sha1(json.dumps(body, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:12]
+
+
 def total_edits(d):
     return len(d["edits"]) + sum(len(v) for v in d.get("pages", {}).values())
 
@@ -204,7 +214,7 @@ def save(slug, changes, by, page="index"):
         raise ValueError("Generate the page first.")
     d = load(slug)
     edits = edits_for(d, page)
-    n = 0
+    n, log = 0, []
     for c in changes:
         orig = _norm(c.get("original", ""))
         text = re.sub(r"[ \t]+", " ", str(c.get("text", ""))).strip()
@@ -212,13 +222,16 @@ def save(slug, changes, by, page="index"):
             continue
         if not text:
             raise ValueError(f'Text cannot be empty: "{orig[:60]}"')
+        before = edits.get(orig, {}).get("text", orig)
         if text == orig:
             if orig in edits:
                 del edits[orig]
                 n += 1
-        elif edits.get(orig, {}).get("text") != text:
+                log.append({"from": before[:600], "to": orig[:600], "restored": True})
+        elif before != text:
             edits[orig] = {"text": text, "by": by, "ts": time.strftime("%Y-%m-%d %H:%M")}
             n += 1
+            log.append({"from": before[:600], "to": text[:600]})
     if not n:
         return 0
     if not _base_file(slug, page).exists():
@@ -228,7 +241,7 @@ def save(slug, changes, by, page="index"):
     _page_file(slug, page).write_text(apply(html_, edits), encoding="utf-8")
     import store
     title = dict((k, t) for k, t, _ in pages())[page]
-    store.log_event(slug, "legal.wording_edited", f"{title}: {n} wording change{'s' if n != 1 else ''}", by)
+    store.log_event(slug, "legal.wording_edited", {"page": page, "title": title, "changes": log[:40], "count": n}, by)
     return n
 
 
@@ -238,7 +251,8 @@ def forget(slug, original, by, page="index"):
     if edits_for(d, _check(page)).pop(_norm(original), None) is not None:
         _save(slug, d)
         import store
-        store.log_event(slug, "legal.wording_removed", original[:120], by)
+        title = dict((k, t) for k, t, _ in pages())[page]
+        store.log_event(slug, "legal.wording_removed", {"page": page, "title": title, "original": original[:600]}, by)
 
 
 def flags_by_block(slug, blks):

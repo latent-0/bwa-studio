@@ -96,6 +96,12 @@ def get(parts, query=None):
         return 200, media.progress(parts[3], parts[4])
     if parts == ["api", "review"]:
         return 200, review_list()
+    if parts == ["api", "history"]:
+        import history
+        return 200, history.query(query or {}, limit=min(int((query or {}).get("limit", 80)), 300))
+    if parts == ["api", "history", "facets"]:
+        import history
+        return 200, history.facets()
     if parts[:2] == ["api", "review"] and len(parts) == 3:
         return 200, review_payload(parts[2], (query or {}).get("page", "index"))
     return None
@@ -128,13 +134,13 @@ def post(path, d):
     s = d.get("slug")
     try:
         if path == "/api/legal/clear":
-            compliance.clear(s, d["id"], d.get("by", "counsel"), d.get("on", True))
+            compliance.clear(s, d["id"], auth.who() or d.get("by") or "counsel", d.get("on", True))
             return 200, compliance.status(s)
         if path == "/api/legal/clear-all":
-            compliance.clear_all(s, d.get("by", "counsel"))
+            compliance.clear_all(s, auth.who() or d.get("by") or "counsel")
             return 200, compliance.status(s)
         if path == "/api/legal/review":
-            st = compliance.review(s, d.get("reviewer", ""), d.get("note", ""))
+            st = compliance.review(s, auth.who() or d.get("reviewer", ""), d.get("note", ""))
             integrations.refresh_stage(s)
             return 200, st
         if path == "/api/review/save":
@@ -143,12 +149,16 @@ def post(path, d):
             if not by:
                 raise ValueError("Enter your name so the review is recorded against you.")
             page = d.get("page") or "index"
+            was = compliance.status(s)["state"]
             n = wording.save(s, d.get("edits") or [], by, page)
             present = {h["id"] for h in compliance.scan(s)}
             for hid in d.get("clear") or []:
                 if hid in present:
                     compliance.clear(s, hid, by, True)
             msg = f"Saved {n} wording change{'s' if n != 1 else ''}." if n else "No wording changes."
+            if was == "approved" and compliance.status(s)["state"] == "stale":
+                store.log_event(s, "legal.signoff_stale", {"reason": "Wording edited after sign-off"}, by)
+                msg += " The earlier sign-off now needs renewing."
             if d.get("approve"):
                 try:
                     compliance.review(s, by, d.get("note", ""))
@@ -161,7 +171,10 @@ def post(path, d):
         if path == "/api/review/forget":
             import wording
             page = d.get("page") or "index"
+            was = compliance.status(s)["state"]
             wording.forget(s, d.get("original", ""), auth.who() or d.get("by") or "reviewer", page)
+            if was == "approved" and compliance.status(s)["state"] == "stale":
+                store.log_event(s, "legal.signoff_stale", {"reason": "A wording edit was removed after sign-off"})
             return 200, review_payload(s, page)
         if path == "/api/legal/revoke":
             compliance.revoke(s)
