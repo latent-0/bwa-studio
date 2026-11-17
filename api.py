@@ -97,7 +97,7 @@ def get(parts, query=None):
     if parts == ["api", "review"]:
         return 200, review_list()
     if parts[:2] == ["api", "review"] and len(parts) == 3:
-        return 200, review_payload(parts[2])
+        return 200, review_payload(parts[2], (query or {}).get("page", "index"))
     return None
 
 
@@ -108,17 +108,19 @@ def review_list():
         st = compliance.status(b["slug"])
         d = wording.load(b["slug"])
         out.append({"slug": b["slug"], "name": b["name"], "vertical": b["vertical"], "color": b["accent_color"] or b["primary_color"] or "#6b8cff",
-                    "state": st["state"], "label": st["label"], "open": st["open"], "flags": len(st["hits"]), "edits": len(d["edits"]),
+                    "state": st["state"], "label": st["label"], "open": st["open"], "flags": len(st["hits"]), "edits": wording.total_edits(d),
                     "reviewed": st["reviewed"]})
     return out
 
 
-def review_payload(slug):
+def review_payload(slug, page="index"):
     import wording
     b = core.get_brand(slug)
-    blks, unmatched = wording.blocks(slug)
-    loose = wording.flags_by_block(slug, blks) if blks else []
-    return {"slug": slug, "name": b["name"], "status": compliance.status(slug), "blocks": blks, "unmatched": unmatched, "loose_flags": loose,
+    blks, unmatched = wording.blocks(slug, page)
+    loose = wording.flags_by_block(slug, blks) if (blks and page == "index") else []
+    rec = wording.load(slug)
+    pages = [{"key": k, "title": t, "file": f, "exists": (core.OUT / slug / f).exists(), "edits": len(wording.edits_for(rec, k))} for k, t, f in wording.pages()]
+    return {"slug": slug, "name": b["name"], "page": page, "pages": pages, "status": compliance.status(slug), "blocks": blks, "unmatched": unmatched, "loose_flags": loose,
             "live": publish.live_status(slug)["live"], "who": auth.who() or ""}
 
 
@@ -140,7 +142,8 @@ def post(path, d):
             by = auth.who() or (d.get("by") or "").strip()
             if not by:
                 raise ValueError("Enter your name so the review is recorded against you.")
-            n = wording.save(s, d.get("edits") or [], by)
+            page = d.get("page") or "index"
+            n = wording.save(s, d.get("edits") or [], by, page)
             present = {h["id"] for h in compliance.scan(s)}
             for hid in d.get("clear") or []:
                 if hid in present:
@@ -152,13 +155,14 @@ def post(path, d):
                     msg += " Signed off."
                 except ValueError as ex:
                     integrations.refresh_stage(s)
-                    return 400, {**review_payload(s), "ok": False, "error": msg + " Not signed off yet: " + str(ex)}
+                    return 400, {**review_payload(s, page), "ok": False, "error": msg + " Not signed off yet: " + str(ex)}
             integrations.refresh_stage(s)
-            return 200, {**review_payload(s), "ok": True, "message": msg, "changed": n}
+            return 200, {**review_payload(s, page), "ok": True, "message": msg, "changed": n}
         if path == "/api/review/forget":
             import wording
-            wording.forget(s, d.get("original", ""), auth.who() or d.get("by") or "reviewer")
-            return 200, review_payload(s)
+            page = d.get("page") or "index"
+            wording.forget(s, d.get("original", ""), auth.who() or d.get("by") or "reviewer", page)
+            return 200, review_payload(s, page)
         if path == "/api/legal/revoke":
             compliance.revoke(s)
             integrations.refresh_stage(s)

@@ -31,6 +31,7 @@ ui.CSS = ui.CSS + """
 .rvact input[type=text]{flex:1 1 180px;height:36px;padding:0 12px}
 .rvact .who{font-size:12.5px;color:var(--mut);white-space:nowrap}.rvact .who b{color:var(--ink);font-weight:600}
 .rvsec{font:600 11px var(--fb);letter-spacing:.09em;text-transform:uppercase;color:var(--mut);margin:20px 0 8px}
+.tabs#rvpages{overflow-x:auto;flex-wrap:nowrap}.tabs#rvpages button{flex:none}.tabs#rvpages button[disabled]{opacity:.4;cursor:not-allowed}
 .rvhelp{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .rvhelp div{padding:12px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12.5px;color:var(--mut);line-height:1.5}
 .rvhelp b{display:block;color:var(--ink);font-weight:600;font-size:13px;margin-bottom:2px}.rvhelp i{font:500 11px var(--fm);font-style:normal;color:var(--accent);display:block;margin-bottom:6px}
@@ -42,7 +43,7 @@ STATE = {"approved": ("ok", "Approved"), "needs_review": ("acc", "Ready for sign
 
 
 def list_page():
-    body = ('<div class="pagehead"><div><h1>Legal review</h1><p>Review the wording on every brand\'s landing page. Edit any line, mark flagged claims as fine, '
+    body = ('<div class="pagehead"><div><h1>Legal review</h1><p>Review the wording on every brand\'s landing page and its legal pages (privacy, terms, CCPA and the rest). Edit any line, mark flagged claims as fine, '
             'and sign off. Saving rebuilds the page straight away, and your edits are kept when the page is regenerated.</p></div></div>'
             '<div class="filters" id="rvf"><button data-f="todo" class="on">Needs review</button><button data-f="approved">Approved</button><button data-f="all">All</button></div>'
             '<section class="panel"><table class="tbl rvtbl"><thead><tr><th>Brand</th><th>Status</th><th>Flagged claims</th><th>Wording edits</th><th>Last sign-off</th><th></th></tr></thead>'
@@ -79,10 +80,11 @@ def review_page(slug):
     body = (f'<div class="bh"><span class="avatar" style="--c:{e(b["accent_color"] or b["primary_color"] or "#6b8cff")};width:48px;height:48px;font-size:20px">{e(b["name"][:1])}</span>'
             f'<div class="grow"><h1>{e(b["name"])}</h1><div class="meta">Legal wording review</div></div>'
             f'<span class="chip2" id="rvchip">Loading</span>'
-            f'<div class="acts"><a class="btn" href="/p/{e(slug)}/" target="_blank">{ico("ext")}Open the page</a><a class="btn" href="/studio/{e(slug)}">Studio</a></div></div>'
-            '<div class="rvhelp"><div><i>01</i><b>Edit the wording</b>Change any line on the page. Lines with risky claims are marked in amber.</div>'
+            f'<div class="acts"><a class="btn" id="rvopen" href="/p/{e(slug)}/" target="_blank">{ico("ext")}Open the page</a><a class="btn" href="/studio/{e(slug)}">Studio</a></div></div>'
+            '<div class="rvhelp"><div><i>01</i><b>Edit the wording</b>Pick a page above, then change any line. Lines with risky claims are marked in amber.</div>'
             '<div><i>02</i><b>Clear what is fine</b>If a flagged claim is acceptable as written, tick "OK as written".</div>'
             '<div><i>03</i><b>Save or sign off</b>Saving rebuilds the page now. Sign off records your approval for go-live.</div></div>'
+            '<div class="tabs" id="rvpages"></div>'
             '<div class="rv"><div class="col"><div class="rvbar"><div class="seg" id="rvseg"><button data-m="flag" class="on">Flagged</button><button data-m="edited">Edited</button><button data-m="all">All text</button></div>'
             '<input type="text" id="rvq" placeholder="Search the wording" style="max-width:240px;height:34px;padding:0 12px"></div>'
             '<div class="rvlist" id="rvlist"><div class="empty">Loading</div></div><div id="rvextra"></div>'
@@ -90,12 +92,12 @@ def review_page(slug):
             '<input type="text" id="rvnote" placeholder="Note for the record (optional)">'
             '<button class="btn" id="rvsave"><span class="spin"></span>Save changes</button>'
             f'<button class="btn primary" id="rvsign"><span class="spin"></span>{ico("check")}Save and sign off</button></div></div>'
-            '<aside class="rvside"><section class="panel" style="padding:14px"><div class="rvbar" style="margin-bottom:10px"><span class="tag">Live preview of this page</span>'
+            '<aside class="rvside"><section class="panel" style="padding:14px"><div class="rvbar" style="margin-bottom:10px"><span class="tag" id="rvptitle">Live preview</span>'
             '<button class="linkbtn" id="rvreload">Reload</button></div><div class="frame"><div class="stage rvprev" id="rvstage">'
-            f'<iframe id="rvframe" src="/p/{e(slug)}/" title="Page preview"></iframe></div></div>'
-            '<p class="hint">Saving updates this page right away. If the brand is already live, publish again from the Go-live tab to push the new wording to the live site.</p></section></aside></div>')
+            f'<iframe id="rvframe" src="about:blank" title="Page preview"></iframe></div></div>'
+            '<p class="hint">Saving updates this page right away. One sign-off covers the landing page and all its legal pages. If the brand is already live, publish again from the Go-live tab to push the new wording to the live site.</p></section></aside></div>')
     js = r"""<script>(function(){
- var slug='""" + e(slug) + r"""',data=null,mode='flag',q='',dirty={},clear={},busy=false;
+ var slug='""" + e(slug) + r"""',data=null,mode='flag',q='',dirty={},clear={},busy=false,pg=(location.hash.slice(1)||'index');
  var ST=""" + str({k: list(v) for k, v in STATE.items()}).replace("'", '"') + r""";
  var $=function(id){return document.getElementById(id);};
  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -136,7 +138,20 @@ def review_page(slug):
   if(!data.who&&!$('rvby')){var i=document.createElement('input');i.type='text';i.id='rvby';i.placeholder='Your name';i.style.flex='0 1 150px';$('rvnote').parentNode.insertBefore(i,$('rvnote'));}
   count();
  }
- function load(){return fetch('/api/review/'+slug).then(function(r){return r.json();}).then(function(j){data=j;draw();});}
+ function purl(){var f=(data&&data.pages.filter(function(p){return p.key===pg;})[0]);return '/p/'+slug+'/'+(pg==='index'?'':(f?f.file:pg+'.html'));}
+ function tabs(){
+  $('rvpages').innerHTML=data.pages.map(function(p){return '<button data-pg="'+p.key+'" class="'+(p.key===pg?'on':'')+'"'+(p.exists?'':' disabled title="Not generated yet"')+'>'+esc(p.title)+(p.edits?'<span class="tdot" style="background:var(--accent)">'+p.edits+'</span>':'')+'</button>';}).join('');
+  $('rvopen').href=purl();var cur=data.pages.filter(function(p){return p.key===pg;})[0];$('rvptitle').textContent='Live preview: '+(cur?cur.title:'');
+  $('rvseg').querySelector('[data-m=flag]').style.display=pg==='index'?'':'none';
+ }
+ function load(first){return fetch('/api/review/'+slug+'?page='+encodeURIComponent(pg)).then(function(r){return r.json();}).then(function(j){
+  data=j;if(pg!=='index'&&mode==='flag'){mode='all';}
+  if(first&&pg==='index'&&!data.blocks.some(function(b){return b.flags&&b.flags.length;})&&!data.loose_flags.length){mode='all';}
+  [].forEach.call(document.querySelectorAll('#rvseg button'),function(x){x.classList.toggle('on',x.getAttribute('data-m')===mode);});
+  tabs();draw();var fr=$('rvframe');if(fr.getAttribute('data-pg')!==pg){fr.setAttribute('data-pg',pg);fr.src=purl();}});}
+ $('rvpages').addEventListener('click',function(ev){var b=ev.target.closest('[data-pg]');if(!b||b.disabled||b.getAttribute('data-pg')===pg)return;
+  if(Object.keys(dirty).length&&!confirm('You have unsaved edits on this page. Switch and discard them?'))return;
+  dirty={};clear={};pg=b.getAttribute('data-pg');history.replaceState(null,'','#'+pg);mode=pg==='index'?'flag':'all';q='';$('rvq').value='';load(true);});
  document.addEventListener('input',function(ev){var t=ev.target;
   if(t.getAttribute&&t.getAttribute('data-t')){var id=t.getAttribute('data-t'),b=data.blocks.filter(function(x){return x.id===id;})[0];grow(t);
    if(t.value.trim()===b.text.trim()){delete dirty[id];}else{dirty[id]=t.value;}
@@ -146,25 +161,25 @@ def review_page(slug):
  document.addEventListener('click',function(ev){
   var u=ev.target.closest('[data-undo]');if(u){var id=u.getAttribute('data-undo'),b=data.blocks.filter(function(x){return x.id===id;})[0];
    if(dirty[id]!=null){delete dirty[id];}else{dirty[id]=b.original;}draw();return;}
-  var fg=ev.target.closest('[data-forget]');if(fg){fetch('/api/review/forget',{method:'POST',body:JSON.stringify({slug:slug,original:fg.getAttribute('data-forget')})}).then(function(r){return r.json();}).then(function(j){data=j;draw();toast('Removed');});}
+  var fg=ev.target.closest('[data-forget]');if(fg){fetch('/api/review/forget',{method:'POST',body:JSON.stringify({slug:slug,page:pg,original:fg.getAttribute('data-forget')})}).then(function(r){return r.json();}).then(function(j){data=j;draw();toast('Removed');});}
  });
  [].forEach.call(document.querySelectorAll('#rvseg button'),function(b){b.onclick=function(){mode=b.getAttribute('data-m');[].forEach.call(document.querySelectorAll('#rvseg button'),function(x){x.classList.toggle('on',x===b);});draw();};});
  function submit(approve,btn){
   if(busy)return;var edits=Object.keys(dirty).map(function(id){var b=data.blocks.filter(function(x){return x.id===id;})[0];return {original:b.original,text:dirty[id]};});
   if(!approve&&!edits.length&&!Object.keys(clear).length){toast('Nothing to save yet',false);return;}
   busy=true;btn.classList.add('loading');
-  fetch('/api/review/save',{method:'POST',body:JSON.stringify({slug:slug,edits:edits,clear:Object.keys(clear),approve:approve,note:$('rvnote').value,by:($('rvby')||{}).value||''})})
+  fetch('/api/review/save',{method:'POST',body:JSON.stringify({slug:slug,page:pg,edits:edits,clear:Object.keys(clear),approve:approve,note:$('rvnote').value,by:($('rvby')||{}).value||''})})
    .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});}).then(function(x){
     busy=false;btn.classList.remove('loading');
-    if(x.j.blocks){data=x.j;dirty={};clear={};draw();$('rvframe').src='/p/'+slug+'/?t='+Date.now();}
+    if(x.j.blocks){data=x.j;dirty={};clear={};tabs();draw();$('rvframe').src=purl()+'?t='+Date.now();}
     toast(x.ok?x.j.message:(x.j.error||'Could not save'),x.ok);
    }).catch(function(){busy=false;btn.classList.remove('loading');toast('Could not reach the studio',false);});
  }
  $('rvsave').onclick=function(){submit(false,this);};$('rvsign').onclick=function(){submit(true,this);};
- $('rvreload').onclick=function(){$('rvframe').src='/p/'+slug+'/?t='+Date.now();};
+ $('rvreload').onclick=function(){$('rvframe').src=purl()+'?t='+Date.now();};
  window.addEventListener('beforeunload',function(ev){if(Object.keys(dirty).length){ev.preventDefault();ev.returnValue='';}});
  fit();if(window.ResizeObserver){new ResizeObserver(fit).observe($('rvstage'));}
- load();
+ load(true);
 })();</script>"""
     crumbs = f'<a href="/review">Legal review</a>{ico("arrow")}<b>{e(b["name"])}</b>'
     return shell(f'Review: {b["name"]}', body, "review", crumbs, js)

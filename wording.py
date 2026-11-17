@@ -1,7 +1,8 @@
-"""Legal wording review: reviewers edit the visible text of a brand's landing page inside the studio.
+"""Legal wording review: reviewers edit the visible text of a brand's landing page and its compliance pages inside the studio.
 
-Edits are stored per brand in data/wording/<slug>.json as {original text -> new text}. The page as the generator built it is kept in
-data/wording/<slug>.base.html, and index.html is always base + edits. After every regenerate the edits are applied again, so a reviewer's
+Edits are stored per brand in data/wording/<slug>.json as {original text -> new text}: landing page edits under "edits", compliance page edits
+under "pages" -> page key. The page as the generator built it is kept in data/wording/<slug>.base.html (landing page) or
+data/wording/<slug>.<page>.base.html, and the served file is always base + edits. After every regenerate the edits are applied again, so a reviewer's
 wording survives rebuilds. An edit whose original text no longer appears on the page (the generator wrote something new) is kept and reported
 as unmatched, so nothing a reviewer wrote is silently lost."""
 import hashlib
@@ -14,7 +15,7 @@ import core
 
 DIR = core.DATA / "wording"
 _TEXT = re.compile(r">([^<]+)<")
-_SKIP = re.compile(r"(?is)<(script|style|svg|head|noscript|template|title)\b[^>]*>.*?</\1\s*>")
+_SKIP = re.compile(r"(?is)<(script|style|svg|head|noscript|template|title)\b[^>]*>.*?</\1\s*>|<p class=\"draft\">.*?</p>")  # the draft notice is the studio's, not copy
 _TAG = re.compile(r"<\s*(/?)\s*([a-zA-Z0-9]+)")
 LABELS = {"h1": "Headline", "h2": "Heading", "h3": "Heading", "h4": "Heading", "p": "Paragraph", "li": "List item", "a": "Link or button",
           "button": "Button", "summary": "FAQ question", "dt": "Term", "dd": "Answer", "label": "Label", "small": "Small print", "strong": "Emphasis",
@@ -33,12 +34,34 @@ def _file(slug):
     return DIR / f"{slug}.json"
 
 
-def _base_file(slug):
-    return DIR / f"{slug}.base.html"
+def pages():
+    """Reviewable pages as (key, title, file name). "index" is the landing page."""
+    return [("index", "Landing page", "index.html")] + [(k, t, f"{k}.html") for k, t in core.COMPLIANCE_PAGES.items()]
 
 
-def _page_file(slug):
-    return core.OUT / slug / "index.html"
+def _check(page):
+    if page not in {k for k, _, _ in pages()}:
+        raise ValueError("Unknown page.")
+    return page
+
+
+def _base_file(slug, page="index"):
+    return DIR / (f"{slug}.base.html" if page == "index" else f"{slug}.{page}.base.html")
+
+
+def _page_file(slug, page="index"):
+    return core.OUT / slug / ("index.html" if page == "index" else f"{page}.html")
+
+
+def edits_for(d, page="index"):
+    """The {original -> edit} map for one page of a loaded record."""
+    if page == "index":
+        return d["edits"]
+    return d.setdefault("pages", {}).setdefault(page, {})
+
+
+def total_edits(d):
+    return len(d["edits"]) + sum(len(v) for v in d.get("pages", {}).values())
 
 
 def load(slug):
@@ -136,34 +159,34 @@ def apply(page, edits):
     return "".join(out)
 
 
-def base(slug):
-    b = _base_file(slug)
+def base(slug, page="index"):
+    b = _base_file(slug, page)
     if b.exists():
         return b.read_text(encoding="utf-8")
-    p = _page_file(slug)
+    p = _page_file(slug, page)
     return p.read_text(encoding="utf-8") if p.exists() else None
 
 
-def after_build(slug):
-    """Called right after the generator writes index.html: keep that as the base, then re-apply the reviewers' edits."""
-    p = _page_file(slug)
+def after_build(slug, page="index"):
+    """Called right after the generator writes a page: keep that as the base, then re-apply the reviewers' edits."""
+    p = _page_file(slug, page)
     if not p.exists():
         return
-    page = p.read_text(encoding="utf-8")
+    html_ = p.read_text(encoding="utf-8")
     DIR.mkdir(parents=True, exist_ok=True)
-    _base_file(slug).write_text(page, encoding="utf-8")
-    edits = load(slug)["edits"]
+    _base_file(slug, page).write_text(html_, encoding="utf-8")
+    edits = edits_for(load(slug), page)
     if edits:
-        p.write_text(apply(page, edits), encoding="utf-8")
+        p.write_text(apply(html_, edits), encoding="utf-8")
 
 
-def blocks(slug):
-    page = base(slug)
-    if page is None:
+def blocks(slug, page="index"):
+    html_ = base(slug, _check(page))
+    if html_ is None:
         return [], []
-    edits = load(slug)["edits"]
+    edits = edits_for(load(slug), page)
     seen, out = set(), []
-    for _, _, t, tag, _ in _segments(page):
+    for _, _, t, tag, _ in _segments(html_):
         if t in seen:
             continue
         seen.add(t)
@@ -174,12 +197,13 @@ def blocks(slug):
     return out, unmatched
 
 
-def save(slug, changes, by):
+def save(slug, changes, by, page="index"):
     """changes: [{original, text}]. A text equal to the original removes the edit. Returns how many edits changed."""
-    page = base(slug)
-    if page is None:
+    html_ = base(slug, _check(page))
+    if html_ is None:
         raise ValueError("Generate the page first.")
     d = load(slug)
+    edits = edits_for(d, page)
     n = 0
     for c in changes:
         orig = _norm(c.get("original", ""))
@@ -189,28 +213,29 @@ def save(slug, changes, by):
         if not text:
             raise ValueError(f'Text cannot be empty: "{orig[:60]}"')
         if text == orig:
-            if orig in d["edits"]:
-                del d["edits"][orig]
+            if orig in edits:
+                del edits[orig]
                 n += 1
-        elif d["edits"].get(orig, {}).get("text") != text:
-            d["edits"][orig] = {"text": text, "by": by, "ts": time.strftime("%Y-%m-%d %H:%M")}
+        elif edits.get(orig, {}).get("text") != text:
+            edits[orig] = {"text": text, "by": by, "ts": time.strftime("%Y-%m-%d %H:%M")}
             n += 1
     if not n:
         return 0
-    if not _base_file(slug).exists():
+    if not _base_file(slug, page).exists():
         DIR.mkdir(parents=True, exist_ok=True)
-        _base_file(slug).write_text(page, encoding="utf-8")
+        _base_file(slug, page).write_text(html_, encoding="utf-8")
     _save(slug, d)
-    _page_file(slug).write_text(apply(page, d["edits"]), encoding="utf-8")
+    _page_file(slug, page).write_text(apply(html_, edits), encoding="utf-8")
     import store
-    store.log_event(slug, "legal.wording_edited", f"{n} wording change{'s' if n != 1 else ''}", by)
+    title = dict((k, t) for k, t, _ in pages())[page]
+    store.log_event(slug, "legal.wording_edited", f"{title}: {n} wording change{'s' if n != 1 else ''}", by)
     return n
 
 
-def forget(slug, original, by):
+def forget(slug, original, by, page="index"):
     """Drop an unmatched edit."""
     d = load(slug)
-    if d["edits"].pop(_norm(original), None) is not None:
+    if edits_for(d, _check(page)).pop(_norm(original), None) is not None:
         _save(slug, d)
         import store
         store.log_event(slug, "legal.wording_removed", original[:120], by)

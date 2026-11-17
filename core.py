@@ -699,6 +699,8 @@ def build_compliance(brand):
         (d / f"{key}.html").write_text(LEGAL_PAGE.substitute(
             title=title, name=e(brand["name"]), primary=e(brand["primary_color"] or "#0b2a5b"),
             accent=e(brand["accent_color"] or "#b3202a"), fonts=FONTS, banner=banner, date=time.strftime("%B %d, %Y"), body=body), encoding="utf-8")
+        import wording
+        wording.after_build(brand["slug"], key)
     return len(COMPLIANCE_PAGES)
 
 
