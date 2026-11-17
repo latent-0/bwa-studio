@@ -21,3 +21,4 @@ __pycache__
 .vercel
 record_demo.py
 record_before_after.py
+.preview

@@ -1,4 +1,4 @@
-"""Brand Studio UI: dashboard and per-brand workspace. Fonts: Poppins (display) and Inter (text).
+"""Brand Studio UI: dashboard and per-brand workspace. Fonts: Newsreader (display), IBM Plex Sans (text), IBM Plex Mono (figures).
 Element ids used by the recording scripts are kept stable: #prompt #gen #st #buyer #setbuyer #cl #warns #vars #view [data-v]."""
 import html
 
@@ -6,11 +6,12 @@ import auth
 import core
 import lp
 import sheet
+import ui_design
 
 e = html.escape
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-         '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">')
+         '<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">')
 
 SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
@@ -27,16 +28,18 @@ SPRITE = """<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol>
 <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
 <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
 </defs></svg>"""
 
 CSS = """
-:root{--bg:#0a0d12;--side:#0d1117;--surface:#11161d;--surface2:#171d26;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);
---ink:#eef1f6;--mut:#8b95a6;--faint:#5b6577;--accent:#6b8cff;--accent2:#4a6df0;--ok:#33c47c;--bad:#ef5d5d;--warn:#f0b24a;
---shadow:0 20px 50px rgba(0,0,0,.45);--r:16px;--ease:cubic-bezier(.2,.7,.2,1);
---fd:Poppins,Inter,system-ui,Segoe UI,Arial,sans-serif;--fb:Inter,system-ui,Segoe UI,Arial,sans-serif;color-scheme:dark}
-:root[data-theme=light]{--bg:#f3f1ec;--side:#faf9f6;--surface:#fff;--surface2:#f6f4ef;--line:rgba(20,23,28,.09);--line2:rgba(20,23,28,.16);
---ink:#14171c;--mut:#667085;--faint:#98a2b3;--accent:#3358e8;--accent2:#2646cf;--ok:#16a362;--bad:#d9433f;--warn:#c98512;--shadow:0 20px 50px rgba(20,23,28,.12);color-scheme:light}
+:root{--bg:#f5f4f0;--side:#fbfaf7;--surface:#ffffff;--surface2:#f1efe9;--line:rgba(17,24,39,.09);--line2:rgba(17,24,39,.16);
+--ink:#111827;--mut:#545d6b;--faint:#8b929e;--accent:#1d3866;--accent2:#142a50;--ok:#1d7a4e;--bad:#b23a30;--warn:#9a6410;--prio:#9c5a17;
+--shadow:0 1px 2px rgba(17,24,39,.04),0 14px 34px -18px rgba(17,24,39,.22);--r:12px;--ease:cubic-bezier(.22,.8,.24,1);
+--fd:Newsreader,Georgia,"Times New Roman",serif;--fb:"IBM Plex Sans",system-ui,"Segoe UI",Arial,sans-serif;--fm:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+:root[data-theme=dark]{--bg:#0c0f14;--side:#0f131a;--surface:#141920;--surface2:#1a2029;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.15);
+--ink:#e8ebf0;--mut:#9aa3b2;--faint:#687284;--accent:#6f93d8;--accent2:#5a80c8;--ok:#43b27c;--bad:#e06a5f;--warn:#d6a24a;--prio:#d99555;
+--shadow:0 1px 2px rgba(0,0,0,.3),0 18px 40px -20px rgba(0,0,0,.6);color-scheme:dark}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 14.5px/1.55 var(--fb);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
 a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
@@ -68,7 +71,7 @@ h1,h2,h3{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;margin:0}
 a.pill-link{text-decoration:none;cursor:pointer;transition:border-color .2s,color .2s,background .2s}a.pill-link:hover{color:var(--ink);border-color:var(--line2);background:var(--surface2)}
 .iconbtn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--mut);transition:color .2s,border-color .2s,transform .3s var(--ease)}
 .iconbtn:hover{color:var(--ink);border-color:var(--line2);transform:rotate(18deg)}
-[data-theme=light] .sun,:root:not([data-theme=light]) .moon{display:none}
+:root:not([data-theme=dark]) .sun,[data-theme=dark] .moon{display:none}
 .content{padding:34px;max-width:1360px;margin:0 auto}
 .pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px;flex-wrap:wrap}
 .pagehead h1{font-size:30px;line-height:1.1}.pagehead p{margin:6px 0 0;color:var(--mut)}
@@ -171,7 +174,7 @@ THEME_JS = """<script>
 (function(){
   var b=document.getElementById('theme');
   if(b){b.addEventListener('click',function(){
-    var cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark', nx=cur==='light'?'dark':'light';
+    var cur=document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light', nx=cur==='light'?'dark':'light';
     document.documentElement.setAttribute('data-theme',nx);try{localStorage.setItem('bs_theme',nx);}catch(e){}
   });}
   var so=document.getElementById('signout');if(so){so.onclick=function(){fetch('/api/logout',{method:'POST',body:'{}'}).then(function(){location.href='/login';});};}
@@ -207,17 +210,17 @@ def shell(title, body, active=None, crumbs="", extra_js=""):
     who = auth.who()
     user_ui = (f'<span class="pill" title="Signed in">{e(who)}</span><button class="btn ghost" id="signout" style="height:34px">Sign out</button>' if who else "")
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-            f'<title>{e(title)} | Brand Studio</title>{FONTS}{THEME_BOOT}<style>{CSS}</style></head><body>{SPRITE}'
-            f'<div class="app"><aside class="side"><a class="logo" href="/"><i>BS</i><div><b>Brand Studio</b><span>Day One x BWA</span></div></a>'
+            f'<title>{e(title)} | Brand Studio</title>{FONTS}{THEME_BOOT}<style>{CSS}{ui_design.CSS}</style></head><body>{SPRITE}'
+            f'<div class="app"><div class="sidescrim" id="sidescrim"></div><aside class="side" id="side"><a class="logo" href="/"><i>BS</i><div><b>Brand Studio</b><span>Day One x BWA</span></div></a>'
             f'<div><div class="navlabel">Overview</div><nav class="nav"><a class="nav-item{" active" if active is None else ""}" href="/">{ico("grid")}<span class="nm">Dashboard</span></a></nav></div>'
             f'<div><div class="navlabel">Operate</div><nav class="nav">{ops_nav}</nav></div>'
             f'<div><div class="navlabel">Brands</div><nav class="nav">{nav}</nav></div>'
             f'<div class="side-foot"><b>Control panel</b>{e(src)}<br>{"Edit the Sheet to change a brand." if live else "Edit brands.csv, or publish a Sheet and set SHEET_CSV_URL."}</div></aside>'
-            f'<div class="main"><header class="top"><div class="crumbs">{crumbs}</div><div class="tools">'
+            f'<div class="main"><header class="top"><button class="iconbtn menubtn" id="menubtn" aria-label="Open menu" aria-controls="side" aria-expanded="false">{ico("menu")}</button><div class="crumbs">{crumbs}</div><div class="tools">'
             f'<a class="pill pill-link" href="{e(lp.sheet_url())}" target="_blank" rel="noopener" title="Open the Google Sheet"><span class="dot{" ok" if live else ""}"></span>{e(src)}</a>'
             f'{user_ui}'
             f'<button class="iconbtn" id="theme" aria-label="Toggle theme"><span class="sun">{ico("sun")}</span><span class="moon">{ico("moon")}</span></button></div></header>'
-            f'<div class="content">{body}</div></div></div><div class="toasts" id="toasts"></div>{THEME_JS}{extra_js}</body></html>')
+            f'<div class="content">{body}</div></div></div><div class="toasts" id="toasts"></div>{THEME_JS}{extra_js}{ui_design.JS}</body></html>')
 
 
 def ring(done, total):
