@@ -1,0 +1,20 @@
+# Mirrors .vercelignore: keep secrets, local state and generated output out of git
+data/integrations.json
+data/auth.json
+data/.auth_secret
+data/user_credentials.txt
+data/studio.db
+data/studio.db-journal
+data/metrics.jsonl
+data/video
+data/sheet
+data/cache
+.env
+.env.*
+out
+published
+recordings
+__pycache__
+*.pyc
+*.log
+.vercel
