@@ -918,8 +918,15 @@ def load_variants(slug):
 # ---------------------------------------------------------------- metrics
 
 def metrics_summary():
+    import store
+    try:  # every generate is logged in the events table, which survives restarts (metrics.jsonl does not on a serverless host)
+        pages = store.q("select count(distinct slug) as n from events where kind='page.generated'")[0]["n"] or 0
+    except Exception:
+        pages = None
+    if paths.SERVERLESS and pages is not None:
+        return {"runs": pages}
     if not METRICS.exists():
-        return {"runs": 0}
+        return {"runs": pages or 0}
     rows = [json.loads(x) for x in METRICS.read_text(encoding="utf-8").splitlines() if x.strip()]
     llm = [r for r in rows if r["source"] == "Claude"]
     tin, tout = sum(r["tokens_in"] for r in llm), sum(r["tokens_out"] for r in llm)
