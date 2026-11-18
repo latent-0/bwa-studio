@@ -924,7 +924,7 @@ def metrics_summary():
     except Exception:
         pages = None
     if paths.SERVERLESS and pages is not None:
-        return {"runs": pages}
+        return {"runs": pages, "avg_seconds": 0, "llm_runs": 0, "tokens_in": 0, "tokens_out": 0, "est_llm_cost": None}
     if not METRICS.exists():
         return {"runs": pages or 0}
     rows = [json.loads(x) for x in METRICS.read_text(encoding="utf-8").splitlines() if x.strip()]
