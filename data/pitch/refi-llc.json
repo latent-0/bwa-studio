@@ -1,0 +1,146 @@
+{
+  "source_image": "https://refi.llc/",
+  "note": "Refi LLC page: home refinancing options, built from refi.llc and its final video.",
+  "eyebrow": "Home refinancing options assistance",
+  "hero": "Thinking about refinancing your home? Talk to a refinancing specialist.",
+  "hero_accent_words": 4,
+  "bullets": [
+    {
+      "b": "One straightforward call.",
+      "s": "Speak with a specialist about the refinancing options that may be available to you."
+    },
+    {
+      "b": "Transparency and choice.",
+      "s": "Hear how rates, terms and closing costs work before you decide anything."
+    },
+    {
+      "b": "You stay in control.",
+      "s": "Compare options from lenders and choose what suits your goals."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Home refinancing",
+    "Lender options compared",
+    "Clear terms explained",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "An easier way to look",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "Refi LLC",
+    "good": [
+      "One phone call",
+      "A real refinancing specialist",
+      "Options explained for you",
+      "Straightforward answers",
+      "Help with the next steps"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of confusing websites",
+      "Unclear plan details",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Refi LLC?",
+    "title": "We explain the options. You choose the lender.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a specialist who listens to your goals."
+      ],
+      [
+        "Save your time",
+        "Skip filling in the same details on lender site after lender site."
+      ],
+      [
+        "Clear refinancing options",
+        "Hear how rates, terms and closing costs work in plain language."
+      ],
+      [
+        "Your goals first",
+        "Lower payment, shorter term or cash out, talk through what you want."
+      ],
+      [
+        "Lenders compared",
+        "Hear about options from more than one lender."
+      ],
+      [
+        "Step by step help",
+        "Get support from your first question through your application."
+      ],
+      [
+        "Straightforward answers",
+        "Ask anything and get clear answers before you commit."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Exploring your refinance in four simple steps.",
+    "items": [
+      [
+        "Tell us your goals",
+        "Share what you want from refinancing your home."
+      ],
+      [
+        "We review the options",
+        "Your specialist looks at lender options that may fit."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the option with terms that suit your goals."
+      ],
+      [
+        "Apply with help",
+        "We walk you through the next steps over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human help without the runaround.",
+    "body": "Refinancing does not have to mean wrestling with complicated screens. When you call, you speak with a real person who explains your options clearly.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the forms. Explore refinancing by phone.",
+    "accent_words": 3,
+    "sub": "Specialists are available Monday to Friday, 9am to 6pm EST.",
+    "form_title": "Thinking about refinancing?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What hours are your specialists available?",
+      "Our specialists are available by phone Monday through Friday from 9am to 6pm EST."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak with a refinancing specialist who explains the options that may be available."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Have a rough idea of your home's value, your current loan balance and your goals."
+    ],
+    [
+      "Does calling commit me to anything?",
+      "No. Calling is a conversation. You decide whether to apply."
+    ]
+  ],
+  "disclaimer": "Refi LLC is not a lender. Loan approval, rates and terms are set by lenders and depend on eligibility, property and state law."
+}

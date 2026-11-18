@@ -1,0 +1,146 @@
+{
+  "source_image": "https://ezloan.center/",
+  "note": "Easy Loan Center page: personal loan options by phone, built from the brand's current site (ezloan.center) and its final video.",
+  "eyebrow": "Personal loan options assistance",
+  "hero": "Need a loan without the hassle? Talk to a loan specialist.",
+  "hero_accent_words": 4,
+  "bullets": [
+    {
+      "b": "One simple call.",
+      "s": "Speak with a specialist who explains the personal loan options that may be available to you."
+    },
+    {
+      "b": "Clear and transparent.",
+      "s": "Hear how terms, rates and repayment work before you decide anything."
+    },
+    {
+      "b": "Help with the steps.",
+      "s": "Get guidance through the application process right over the phone."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Personal loan specialists",
+    "Clear terms explained",
+    "Help with every step",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "An easier way to look",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "Easy Loan Center",
+    "good": [
+      "One phone call",
+      "A real loan specialist",
+      "Options explained for you",
+      "Straightforward answers",
+      "Help with the application"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of confusing websites",
+      "Unclear plan details",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Easy Loan Center?",
+    "title": "We explain the options. You choose the loan.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a specialist who listens to what you need the money for."
+      ],
+      [
+        "Save your time",
+        "Skip filling in the same details on site after site."
+      ],
+      [
+        "Clear loan options",
+        "Hear how rates, terms and monthly payments work in plain language."
+      ],
+      [
+        "Matched to your situation",
+        "Get information that fits your budget and timeline."
+      ],
+      [
+        "Unexpected expenses",
+        "Ask about options for car repairs, medical bills and other surprises."
+      ],
+      [
+        "Step by step help",
+        "Get support from your first question through your application."
+      ],
+      [
+        "Straightforward answers",
+        "Ask anything and get clear answers before you commit."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Exploring your options in four simple steps.",
+    "items": [
+      [
+        "Tell us what you need",
+        "Share the amount you are looking for and what it is for."
+      ],
+      [
+        "We review the options",
+        "Your specialist looks at the loan options that may fit."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the option with terms that suit your budget."
+      ],
+      [
+        "Apply with help",
+        "We walk you through the application over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human help without the runaround.",
+    "body": "Borrowing does not have to mean wrestling with complicated screens. When you call, you speak with a real person who explains your options clearly.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the forms. Explore your options by phone.",
+    "accent_words": 4,
+    "sub": "Our specialists are ready to help with your questions.",
+    "form_title": "Need help with a loan?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "Who will I speak with on the call?",
+      "You will speak with a loan specialist who explains the personal loan options that may be available."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Have the amount you are looking for and a rough idea of your monthly budget."
+    ],
+    [
+      "Will you explain the terms?",
+      "Yes. Your specialist explains rates, terms and repayment before you decide anything."
+    ],
+    [
+      "Does calling commit me to anything?",
+      "No. Calling is a conversation. You decide whether to apply."
+    ]
+  ],
+  "disclaimer": "Easy Loan Center is not a lender. Loan approval, amounts, rates and terms are set by lenders and depend on eligibility and state law."
+}

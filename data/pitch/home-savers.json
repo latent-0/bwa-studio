@@ -1,0 +1,146 @@
+{
+  "source_image": "https://homessavers.com/",
+  "note": "Home Savers page: home, auto, health and other everyday coverage, built from homessavers.com and its car insurance video.",
+  "eyebrow": "Insurance options for your household",
+  "hero": "Coverage for your home and car. Talk to an insurance expert.",
+  "hero_accent_words": 4,
+  "bullets": [
+    {
+      "b": "One helpful conversation.",
+      "s": "Speak with an insurance expert who helps you compare coverage options."
+    },
+    {
+      "b": "Home, auto and more.",
+      "s": "Ask about home, car, health, life and pet insurance in one call."
+    },
+    {
+      "b": "Plain answers.",
+      "s": "Hear how each option works and what it costs before you decide anything."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Home and auto coverage",
+    "Health and life options",
+    "Plain language answers",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "An easier way to look",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "Home Savers",
+    "good": [
+      "One phone call",
+      "A real insurance expert",
+      "Options explained for you",
+      "Straightforward answers",
+      "Help choosing coverage"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of confusing websites",
+      "Unclear plan details",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Home Savers?",
+    "title": "We compare the options. You choose the coverage.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with an expert who listens to what your household needs."
+      ],
+      [
+        "Save your time",
+        "Skip comparing quote after quote across different websites."
+      ],
+      [
+        "Clear coverage options",
+        "Hear how different policies work in plain language."
+      ],
+      [
+        "Home and car together",
+        "Ask about covering your home and vehicles in one conversation."
+      ],
+      [
+        "Matched to your budget",
+        "Get information that fits what you can spend."
+      ],
+      [
+        "Step by step help",
+        "Get support from your first question through your final decision."
+      ],
+      [
+        "Straightforward answers",
+        "Ask anything and get clear answers before you commit."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Finding your coverage in four simple steps.",
+    "items": [
+      [
+        "Tell us what you need",
+        "Share what you want to cover, your home, your car or both."
+      ],
+      [
+        "We review the options",
+        "Your expert looks at the providers and plans that may fit."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the coverage that suits your household and budget."
+      ],
+      [
+        "Get covered",
+        "We walk you through the next steps over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human help without the runaround.",
+    "body": "Insurance does not have to mean wrestling with complicated screens. When you call, you speak with a real person who helps you compare your options.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the screen fatigue. Compare coverage by phone.",
+    "accent_words": 4,
+    "sub": "Our insurance experts are ready to help with your questions.",
+    "form_title": "Have questions about coverage?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What kinds of insurance can you help with?",
+      "Home, auto, health, life and pet insurance."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak with an insurance expert who can explain your options."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Have your current policy details and the coverage you want in mind."
+    ],
+    [
+      "Does calling commit me to anything?",
+      "No. Calling is a conversation. You decide whether any coverage is right for you."
+    ]
+  ],
+  "disclaimer": "Home Savers is a marketing site and is not an insurer. Coverage, availability and costs vary by provider, location and eligibility."
+}

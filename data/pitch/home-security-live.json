@@ -1,0 +1,146 @@
+{
+  "source_image": "https://homesecurity.live/",
+  "note": "Home Security Live page: compare home security systems and monitoring, built from the brand's current site (homesecurity.live) and its final video.",
+  "eyebrow": "Home security options assistance",
+  "hero": "Protect your home and your peace of mind. Talk to a specialist.",
+  "hero_accent_words": 5,
+  "bullets": [
+    {
+      "b": "One helpful call.",
+      "s": "Speak with a specialist who helps you compare home security providers in your area."
+    },
+    {
+      "b": "Options for your home.",
+      "s": "Ask about smart systems, cameras and 24/7 monitored alarms."
+    },
+    {
+      "b": "Clear answers.",
+      "s": "Hear how equipment, installation and monitoring work before you decide anything."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Smart home systems",
+    "Cameras and alarms",
+    "24/7 monitoring options",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "An easier way to look",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "Home Security Live",
+    "good": [
+      "One phone call",
+      "A real security specialist",
+      "Options explained for you",
+      "Straightforward answers",
+      "Help choosing a provider"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of confusing websites",
+      "Unclear plan details",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Home Security Live?",
+    "title": "We compare the providers. You choose the protection.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a specialist who listens to what you want to protect."
+      ],
+      [
+        "Save your time",
+        "Skip comparing provider after provider across different websites."
+      ],
+      [
+        "Clear system options",
+        "Hear how cameras, sensors and monitoring work in plain language."
+      ],
+      [
+        "Matched to your home",
+        "Get options that fit your home, your area and your budget."
+      ],
+      [
+        "Smart home features",
+        "Ask about app control, video doorbells and smart locks."
+      ],
+      [
+        "Step by step help",
+        "Get support from your first question through installation."
+      ],
+      [
+        "Straightforward answers",
+        "Ask anything and get clear answers before you commit."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Protecting your home in four simple steps.",
+    "items": [
+      [
+        "Tell us about your home",
+        "Share your home's size and what matters most to you."
+      ],
+      [
+        "We review the options",
+        "Your specialist looks at providers that serve your area."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the system and monitoring that suit your budget."
+      ],
+      [
+        "Get set up",
+        "We help you arrange installation with your chosen provider."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human help without the runaround.",
+    "body": "Home security does not have to mean wrestling with complicated screens. When you call, you speak with a real person who helps you compare your options.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the screen fatigue. Compare systems by phone.",
+    "accent_words": 4,
+    "sub": "Our specialists are ready to help with your questions.",
+    "form_title": "Have questions about home security?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What can you help me compare?",
+      "Smart home systems, cameras, alarms and 24/7 monitoring from providers in your area."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak with a home security specialist who explains the options available to you."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Have a rough idea of your home's size and what you want to protect."
+    ],
+    [
+      "Does calling commit me to anything?",
+      "No. Calling is a conversation. You decide whether any system is right for you."
+    ]
+  ],
+  "disclaimer": "Home Security Live is a marketing site that connects homeowners with security providers. Equipment, monitoring, pricing and availability vary by provider and location."
+}

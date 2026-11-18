@@ -1,0 +1,146 @@
+{
+  "source_image": "https://homeservice.live/",
+  "note": "Home Service Live page: local pros for home projects (bathroom, kitchen, roofing, HVAC, windows, flooring, solar, pest control), built from homeservice.live and its bathroom remodeling video.",
+  "eyebrow": "Home project help",
+  "hero": "Find trusted local pros for any home project. Talk to a specialist.",
+  "hero_accent_words": 5,
+  "bullets": [
+    {
+      "b": "One simple call.",
+      "s": "Tell a specialist about your project and get connected with local contractors."
+    },
+    {
+      "b": "Any home project.",
+      "s": "Bathrooms, kitchens, roofing, HVAC, windows, flooring, solar and pest control."
+    },
+    {
+      "b": "Estimates to compare.",
+      "s": "Hear from local pros about your project so you can compare before you decide."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Local contractors",
+    "Remodeling and repairs",
+    "Estimates to compare",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "An easier way to look",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "Home Service Live",
+    "good": [
+      "One phone call",
+      "A real project specialist",
+      "Local pros matched to you",
+      "Straightforward answers",
+      "Estimates to compare"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of contractor websites",
+      "Unclear pricing",
+      "Calling around for hours",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Home Service Live?",
+    "title": "We find the pros. You choose who does the work.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a specialist who listens to what your project needs."
+      ],
+      [
+        "Save your time",
+        "Skip calling contractor after contractor yourself."
+      ],
+      [
+        "Local pros",
+        "Get matched with contractors who work in your area."
+      ],
+      [
+        "Any project size",
+        "From a quick repair to a full remodel."
+      ],
+      [
+        "Compare estimates",
+        "Hear from more than one contractor before you decide."
+      ],
+      [
+        "Step by step help",
+        "Get support from your first question to booking the work."
+      ],
+      [
+        "Straightforward answers",
+        "Ask anything and get clear answers before you commit."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Starting your project in four simple steps.",
+    "items": [
+      [
+        "Tell us about your project",
+        "Share what you want done and where you live."
+      ],
+      [
+        "We find local pros",
+        "Your specialist connects you with contractors in your area."
+      ],
+      [
+        "Compare your estimates",
+        "Look at the options and pick what suits your budget."
+      ],
+      [
+        "Book the work",
+        "Choose your contractor and schedule your project."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human help without the runaround.",
+    "body": "Home projects do not have to start with hours of searching. When you call, you speak with a real person who connects you with local pros.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the searching. Start your project by phone.",
+    "accent_words": 4,
+    "sub": "Our specialists are ready to help with your project.",
+    "form_title": "Planning a home project?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What projects can you help with?",
+      "Bathroom and kitchen remodeling, roofing, HVAC, windows, flooring, solar and pest control."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak with a specialist who connects you with local contractors."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Have a short description of your project and your ZIP code."
+    ],
+    [
+      "Does calling commit me to anything?",
+      "No. Calling is a conversation. You decide whether to hire anyone."
+    ]
+  ],
+  "disclaimer": "Home Service Live is a marketing site that connects homeowners with independent contractors. Services, pricing and availability vary by contractor and location."
+}
