@@ -30,9 +30,9 @@ DEFAULT = "campaign"
 # (field, column position in the Sheet, header in the Sheet). Columns are found by header text; the position is only a fallback.
 COLS = {
     "campaign": [("brand", 0, "Brand"), ("campaign", 1, "Campaign"), ("stage", 2, "Production Stages"), ("page_url", 5, "Landing Page URL (call-only variant)"),
-                 ("review_link", 23, "Updated Landing Page Review Link"), ("feedback", 24, "Jeff landing page feedback"), ("variant", 25, "LP variant"),
+                 ("review_link", 23, "Reference Landing Page Draft Link"), ("feedback", 24, "Landing page Draft feedback"), ("variant", 25, "LP variant"),
                  ("build_owner", 26, "Build owner"), ("build_date", 27, "Build date"), ("approval", 28, "Jeff approval"), ("deploy_owner", 30, "Deploy owner"),
-                 ("deploy_status", 31, "Deploy status"), ("live_url", 32, "Live URL"), ("deploy_date", 33, "Deploy date"),
+                 ("deploy_status", 31, "Deploy status"), ("live_url", 32, "Live URL For Feedback"), ("deploy_date", 33, "Deploy date"),
                  ("jeff_notes", None, "Notes from Jeff"), ("team_notes", None, "Notes from Tina/Ryan"),
                  ("notes", 39, "Missing items and review notes"), ("golive", 40, "Go-live check")],
 }
@@ -40,7 +40,7 @@ COLS = {
 # Fields the studio may write. Everything else (Jeff approval, calculated cells, links Jeff owns) stays read only here.
 EDITABLE = {
     "campaign": {"variant": "LP variant", "build_owner": "Build owner", "build_date": "Build date", "deploy_owner": "Deploy owner",
-                 "deploy_status": "Deploy status", "live_url": "Live URL", "deploy_date": "Deploy date", "notes": "Missing items and review notes"},
+                 "deploy_status": "Deploy status", "live_url": "Live URL For Feedback", "deploy_date": "Deploy date", "notes": "Missing items and review notes"},
 }
 OPTIONS = {
     "variant": ["A: With video", "B: Without video"],

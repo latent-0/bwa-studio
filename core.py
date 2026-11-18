@@ -533,7 +533,7 @@ def _build_from_pitch(brand, pitch, t0):
         lambda name: (ASSETS / slug / name).exists())
     d = OUT / slug
     d.mkdir(parents=True, exist_ok=True)
-    (d / "index.html").write_text(page, encoding="utf-8")
+    (d / "index.html").write_text(brand_extras(slug, page), encoding="utf-8")
     import wording
     wording.after_build(slug)
     n = build_compliance(brand)
@@ -650,7 +650,7 @@ def build_page(brand, prompt):
     )
     d = OUT / slug
     d.mkdir(parents=True, exist_ok=True)
-    (d / "index.html").write_text(page, encoding="utf-8")
+    (d / "index.html").write_text(brand_extras(slug, page), encoding="utf-8")
     import wording
     wording.after_build(slug)
     n = build_compliance(brand)
@@ -690,18 +690,61 @@ LEGAL = {
 
 def build_compliance(brand):
     import compliance
-    banner = "" if compliance.is_approved(brand["slug"]) else \
-        '<p class="draft">Draft template. Have counsel review before this brand goes live.</p>'
-    d = OUT / brand["slug"]
+    slug = brand["slug"]
+    approved = compliance.is_approved(slug)
+    d = OUT / slug
     d.mkdir(parents=True, exist_ok=True)
     for key, title in COMPLIANCE_PAGES.items():
-        body = Template(LEGAL[key]).safe_substitute(name=e(brand["name"]), email=e(brand["contact_email"] or "[contact email]"))
-        (d / f"{key}.html").write_text(LEGAL_PAGE.substitute(
+        own = legal_override(slug, key)
+        banner = "" if approved else '<p class="draft">Draft template. Have counsel review before this brand goes live.</p>'
+        if own is not None:  # the brand's own counsel-written text, which carries its own "last updated" date
+            body = own
+            if banner:
+                banner = '<p class="draft">Brand legal text. Sign off in Legal review before this brand goes live.</p>'
+        else:
+            body = Template(LEGAL[key]).safe_substitute(name=e(brand["name"]), email=e(brand["contact_email"] or "[contact email]"))
+        page = LEGAL_PAGE.substitute(
             title=title, name=e(brand["name"]), primary=e(brand["primary_color"] or "#0b2a5b"),
-            accent=e(brand["accent_color"] or "#b3202a"), fonts=FONTS, banner=banner, date=time.strftime("%B %d, %Y"), body=body), encoding="utf-8")
+            accent=e(brand["accent_color"] or "#b3202a"), fonts=FONTS, banner=banner, date=time.strftime("%B %d, %Y"), body=body)
+        if own is not None:
+            page = page.replace(f'<p class="upd">Last updated {time.strftime("%B %d, %Y")}</p>', "", 1)
+        (d / f"{key}.html").write_text(brand_extras(slug, page), encoding="utf-8")
         import wording
-        wording.after_build(brand["slug"], key)
+        wording.after_build(slug, key)
     return len(COMPLIANCE_PAGES)
+
+
+# ---------------------------------------------------------------- per-brand legal (legal/<slug>/)
+# legal/<slug>/<page key>.html  the brand's own legal text for that compliance page (replaces the generic template)
+# legal/<slug>/footer.txt       the exact footer line counsel wants under the landing page links
+# legal/<slug>/settings.json    {"cookie_banner": true} adds the cookie consent banner to every page of the brand
+
+LEGAL_DIR = ROOT / "legal"
+
+
+def legal_override(slug, key):
+    f = LEGAL_DIR / slug / f"{key}.html"
+    return f.read_text(encoding="utf-8") if f.exists() else None
+
+
+def legal_settings(slug):
+    f = LEGAL_DIR / slug / "settings.json"
+    try:
+        return json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+    except Exception:
+        return {}
+
+
+def brand_extras(slug, page):
+    """Applies the brand's legal footer text and cookie banner to a built page. Runs before wording edits, so reviewers can still edit both."""
+    f = LEGAL_DIR / slug / "footer.txt"
+    if f.exists():
+        footer = e(f.read_text(encoding="utf-8").strip())
+        page = re.sub(r'(<footer>.*?<div class="links">.*?</div>)<p>.*?</p>', lambda m: m.group(1) + f"<p>{footer}</p>", page, count=1, flags=re.S)
+    if legal_settings(slug).get("cookie_banner") and 'id="bw-consent"' not in page:
+        from cookie_banner import BANNER
+        page = page.replace("</body>", BANNER + "\n</body>", 1)
+    return page
 
 
 # ---------------------------------------------------------------- go-live checklist
