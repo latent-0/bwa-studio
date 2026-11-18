@@ -719,7 +719,7 @@ def build_compliance(brand):
 # legal/<slug>/footer.txt       the exact footer line counsel wants under the landing page links
 # legal/<slug>/settings.json    {"cookie_banner": true} adds the cookie consent banner to every page of the brand
 
-LEGAL_DIR = ROOT / "legal"
+LEGAL_DIR = paths.SRC / "legal"  # read-only brand legal text ships with the code, so read it from the code folder (ROOT is a /tmp copy on Vercel)
 
 
 def legal_override(slug, key):
