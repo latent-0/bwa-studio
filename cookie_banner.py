@@ -17,7 +17,7 @@ BANNER = """<div id="bw-consent" class="bwc" role="dialog" aria-modal="false" ar
 <h2 id="bwc-t">Your privacy choices</h2>
 <p>We use essential cookies to run this site and handle your call or request. With your permission we also use analytics and marketing cookies. You can accept or reject non-essential cookies, or choose below. See our <a href="cookies.html">Cookie Policy</a>.</p>
 <div class="prefs" id="bwc-prefs" hidden>
-<label><input type="checkbox" checked disabled><span><b>Essential</b>Needed for calls, forms and security. Always on.</span></label>
+<label><input type="checkbox" checked disabled><span><b>Essential</b>Needed for calls, forms and security, so these stay on.</span></label>
 <label><input type="checkbox" id="bwc-an"><span><b>Analytics</b>Helps us understand how the site is used.</span></label>
 <label><input type="checkbox" id="bwc-mk"><span><b>Marketing</b>Attributes calls and leads to campaigns and partners, and may be used for advertising.</span></label>
 </div>
