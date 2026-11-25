@@ -1,4 +1,6 @@
 """JSON API for the studio UI. get(parts, query) and post(path, data) return (status, payload) or None if the route is unknown."""
+import re
+
 import auth
 import board
 import compliance
@@ -148,6 +150,15 @@ def post(path, d):
                 return 200, {"ok": True}
             if path == "/api/buyers/settings":
                 return 200, {"ok": True, "settings": buyers.save_settings(d, who)}
+            if path == "/api/buyers/email":
+                import partner_page
+                b = buyers.get(d.get("id", ""))
+                if not b:
+                    raise ValueError("That partner is no longer here. Refresh the page.")
+                origin = d.get("origin", "")
+                if not re.match(r"^https?://[A-Za-z0-9.:-]+$", origin or ""):
+                    origin = "https://bwa-brand-studio.vercel.app"
+                return 200, {"ok": True, **partner_page.welcome_email(b, f"{origin}/onboard/{b['id']}")}
             if path == "/api/buyers/test":
                 r = buyers.run_test(d.get("id", ""), who)
                 return 200, {"ok": bool(r.get("ok")), "detail": r.get("detail", "")}
