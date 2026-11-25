@@ -1,0 +1,146 @@
+{
+  "source_image": "https://primehealth.clinic/",
+  "note": "Prime Health page: Affordable Care Act health coverage, built from primehealth.clinic and its final video.",
+  "eyebrow": "Affordable Care Act health coverage help",
+  "hero": "Health coverage built around you. Talk to a licensed agent.",
+  "hero_accent_words": 5,
+  "bullets": [
+    {
+      "b": "One clear conversation.",
+      "s": "Speak with a licensed agent who walks you through your Affordable Care Act options."
+    },
+    {
+      "b": "Coverage that fits.",
+      "s": "No one-size-fits-all plans. Hear the options that suit your household."
+    },
+    {
+      "b": "Questions answered.",
+      "s": "Ask about doctors, prescriptions and pre-existing conditions before you decide anything."
+    }
+  ],
+  "cta": "Call now",
+  "badges": [
+    "Licensed insurance agents",
+    "Affordable Care Act plans",
+    "Plain language answers",
+    "Direct phone consultation"
+  ],
+  "compare": {
+    "eyebrow": "An easier way to look",
+    "title": "One helpful conversation beats searching alone.",
+    "good_title": "Prime Health",
+    "good": [
+      "One phone call",
+      "Licensed insurance agent",
+      "Options explained for you",
+      "Straightforward answers",
+      "Help through enrollment"
+    ],
+    "good_stat": "1",
+    "good_label": "phone call",
+    "bad_title": "Searching alone online",
+    "bad": [
+      "Dozens of confusing websites",
+      "Unclear plan details",
+      "Constant screen fatigue",
+      "Repeated form entry",
+      "Second guessing every choice"
+    ],
+    "bad_stat": 0,
+    "bad_label": "live support"
+  },
+  "reasons": {
+    "eyebrow": "Why call Prime Health?",
+    "title": "We do the research. You choose the plan.",
+    "items": [
+      [
+        "Talk to a live person",
+        "Speak directly with a licensed agent who listens to your family's needs."
+      ],
+      [
+        "Save your time",
+        "Skip comparing plan after plan across different websites."
+      ],
+      [
+        "Clear plan options",
+        "Hear how deductibles, networks and premiums work in plain language."
+      ],
+      [
+        "Built around your budget",
+        "Get information matched to what you can spend each month."
+      ],
+      [
+        "Pre-existing conditions",
+        "Ask how Affordable Care Act plans treat the conditions you already have."
+      ],
+      [
+        "Help with enrollment",
+        "Get guided through the steps once you pick a plan."
+      ],
+      [
+        "Straightforward answers",
+        "Ask anything and get clear answers before you commit."
+      ]
+    ]
+  },
+  "steps": {
+    "eyebrow": "How it works",
+    "title": "Finding your coverage in four simple steps.",
+    "items": [
+      [
+        "Tell us about your household",
+        "Share who needs coverage and what matters most to you."
+      ],
+      [
+        "We review the options",
+        "Your licensed agent checks the plans available where you live."
+      ],
+      [
+        "Choose what works for you",
+        "Pick the plan that fits your doctors, needs and budget."
+      ],
+      [
+        "Get enrolled",
+        "We walk you through enrollment right over the phone."
+      ]
+    ]
+  },
+  "free": {
+    "eyebrow": "Support you can count on",
+    "title": "Real human help without the runaround.",
+    "body": "Health insurance does not have to mean wrestling with complicated screens. When you call, you speak with a real person who helps you understand your Affordable Care Act options.",
+    "nos": [
+      "No pressure",
+      "No obligation",
+      "No guesswork",
+      "No phone trees"
+    ],
+    "cta": "Call now"
+  },
+  "close": {
+    "title": "Skip the screen fatigue. Talk it through by phone.",
+    "accent_words": 4,
+    "sub": "Licensed agents are available Monday to Friday, 9am to 6pm EST.",
+    "form_title": "Have questions about health coverage?",
+    "form_cta": "Call now"
+  },
+  "faq": [
+    [
+      "What hours are your agents available?",
+      "Our licensed agents are available by phone Monday through Friday from 9am to 6pm EST."
+    ],
+    [
+      "What should I have ready when I call?",
+      "Have a rough idea of your household size, income and any doctors or prescriptions you want covered."
+    ],
+    [
+      "Who will I speak with on the call?",
+      "You will speak with a licensed insurance agent who works with Affordable Care Act plans."
+    ],
+    [
+      "Can you help if I have a pre-existing condition?",
+      "Yes. Your agent can explain how Affordable Care Act plans handle pre-existing conditions."
+    ]
+  ],
+  "disclaimer": "Plan availability, benefits and costs vary by location and eligibility. TTY: 711."
+}

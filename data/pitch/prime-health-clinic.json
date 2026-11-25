@@ -2,12 +2,12 @@
   "source_image": "https://primehealth.clinic/",
   "note": "Prime Health page: Affordable Care Act health coverage, built from primehealth.clinic and its final video.",
   "eyebrow": "Affordable Care Act health coverage help",
-  "hero": "Health coverage built around you. Talk to a licensed agent.",
+  "hero": "Health coverage built around you. Talk to a insurance agent.",
   "hero_accent_words": 5,
   "bullets": [
     {
       "b": "One clear conversation.",
-      "s": "Speak with a licensed agent who walks you through your Affordable Care Act options."
+      "s": "Speak with a insurance agent who walks you through your Affordable Care Act options."
     },
     {
       "b": "Coverage that fits.",
@@ -20,7 +20,7 @@
   ],
   "cta": "Call now",
   "badges": [
-    "Licensed insurance agents",
+    "Insurance agents",
     "Affordable Care Act plans",
     "Plain language answers",
     "Direct phone consultation"
@@ -31,7 +31,7 @@
     "good_title": "Prime Health",
     "good": [
       "One phone call",
-      "Licensed insurance agent",
+      "Insurance agent",
       "Options explained for you",
       "Straightforward answers",
       "Help through enrollment"
@@ -55,7 +55,7 @@
     "items": [
       [
         "Talk to a live person",
-        "Speak directly with a licensed agent who listens to your family's needs."
+        "Speak directly with a insurance agent who listens to your family's needs."
       ],
       [
         "Save your time",
@@ -93,7 +93,7 @@
       ],
       [
         "We review the options",
-        "Your licensed agent checks the plans available where you live."
+        "Your insurance agent checks the plans available where you live."
       ],
       [
         "Choose what works for you",
@@ -120,14 +120,14 @@
   "close": {
     "title": "Skip the screen fatigue. Talk it through by phone.",
     "accent_words": 4,
-    "sub": "Licensed agents are available Monday to Friday, 9am to 6pm EST.",
+    "sub": "Insurance agents are available Monday to Friday, 9am to 6pm EST.",
     "form_title": "Have questions about health coverage?",
     "form_cta": "Call now"
   },
   "faq": [
     [
       "What hours are your agents available?",
-      "Our licensed agents are available by phone Monday through Friday from 9am to 6pm EST."
+      "Our insurance agents are available by phone Monday through Friday from 9am to 6pm EST."
     ],
     [
       "What should I have ready when I call?",
@@ -135,7 +135,7 @@
     ],
     [
       "Who will I speak with on the call?",
-      "You will speak with a licensed insurance agent who works with Affordable Care Act plans."
+      "You will speak with a insurance agent who works with Affordable Care Act plans."
     ],
     [
       "Can you help if I have a pre-existing condition?",

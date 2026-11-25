@@ -1,0 +1,10 @@
+Brand-name corrections made to legal text copied from the brands' live sites on 25 Nov 2026.
+Each brand's own page named another brand (copy-paste errors on the live sites). Legal (Tina) to confirm.
+
+greenback-loans/opt-out.html: 1 x 'Homes Savers|Home Savers' -> 'Greenback Loans'
+greenback-loans/privacy.html: 3 x 'Homes Savers|Home Savers' -> 'Greenback Loans'
+home-savers/terms.html: 1 x 'ACA Doctor' -> 'Home Savers'
+home-service-live/opt-out.html: 1 x 'ACA Doctor' -> 'Home Service Live'
+prime-health-clinic/cookies.html: 1 x 'ACA Doctor|Home Savers' -> 'Prime Health'
+prime-health-clinic/privacy.html: 2 x 'ACA Doctor|Home Savers' -> 'Prime Health'
+refi-llc/terms.html: 1 x 'ACA Doctor' -> 'Refi LLC'
