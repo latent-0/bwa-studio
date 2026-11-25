@@ -204,7 +204,7 @@ def shell(title, body, active=None, crumbs="", extra_js=""):
                 f'<span class="avatar sm" style="--c:{e(b["accent_color"] or b["primary_color"] or "#6b8cff")}">{e(b["name"][:1])}</span>'
                 f'<span class="nm">{e(b["name"])}</span><span class="dot{" ok" if ready else ""}"></span></a>')
     ops_nav = "".join(f'<a class="nav-item{" active" if active == k else ""}" href="/{k}">{ico(ic)}<span class="nm">{lab}</span></a>'
-                      for k, ic, lab in (("board", "grid", "Priority board"), ("launch", "rocket", "Launch board"), ("review", "shield", "Legal review"), ("pages", "layers", "Landing pages"), ("ops", "chart", "Operations"), ("crm", "users", "CRM pipeline"), ("integrations", "plug", "Integrations")))
+                      for k, ic, lab in (("board", "grid", "Priority board"), ("launch", "rocket", "Launch board"), ("review", "shield", "Legal review"), ("pages", "layers", "Landing pages"), ("ops", "chart", "Operations"), ("crm", "users", "CRM pipeline"), ("buyers", "check", "Buyer onboarding"), ("integrations", "plug", "Integrations")))
     src = core.config_source()
     live = "live" in src.lower()
     who = auth.who()

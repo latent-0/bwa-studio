@@ -133,6 +133,20 @@ def review_payload(slug, page="index"):
 def post(path, d):
     s = d.get("slug")
     try:
+        if path.startswith("/api/buyers/"):
+            import buyers
+            who = auth.who() or "studio"
+            if path == "/api/buyers/save":
+                b = buyers.save(d, who)
+                return 200, {"ok": True, "id": b["id"]}
+            if path == "/api/buyers/step":
+                buyers.set_step(d.get("id", ""), d.get("key", ""), d.get("state", ""), who, d.get("note", ""))
+                return 200, {"ok": True}
+            if path == "/api/buyers/settings":
+                return 200, {"ok": True, "settings": buyers.save_settings(d, who)}
+            if path == "/api/buyers/test":
+                r = buyers.run_test(d.get("id", ""), who)
+                return 200, {"ok": bool(r.get("ok")), "detail": r.get("detail", "")}
         if path == "/api/legal/clear":
             compliance.clear(s, d["id"], auth.who() or d.get("by") or "counsel", d.get("on", True))
             return 200, compliance.status(s)

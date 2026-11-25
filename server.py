@@ -20,6 +20,7 @@ import persist
 import publish
 import ui2
 import ui_board
+import ui_buyers
 import ui_pages
 import ui_review
 import ui_history
@@ -122,6 +123,8 @@ class H(BaseHTTPRequestHandler):
             return False
         if parts and parts[0] == "live":
             return False
+        if parts and parts[0] == "onboard" and len(parts) in (2, 3):
+            return False
         if len(parts) >= 3 and parts[0] == "assets" and parts[2] != "media":
             return False
         if auth.local.email:
@@ -206,6 +209,13 @@ class H(BaseHTTPRequestHandler):
                 return self.send(200, ui_review.review_page(parts[1]))
             if parts == ["crm"]:
                 return self.send(200, ui2.crm_page())
+            if parts == ["buyers"]:
+                host = self.headers.get("Host", "")
+                scheme = "http" if host.startswith(("localhost", "127.0.0.1")) else "https"
+                return self.send(200, ui_buyers.buyers_page(f"{scheme}://{host}" if host else ""))
+            if parts[0] == "onboard" and len(parts) == 2:
+                page = ui_buyers.onboard_page(parts[1])
+                return self.send(200, page) if page else self.send(404, "This onboarding link is not active.")
             if parts == ["integrations"]:
                 return self.send(200, ui2.integrations_page())
             if parts == ["api", "video", "tracker.csv"]:
@@ -277,7 +287,15 @@ class H(BaseHTTPRequestHandler):
                     return self.json({"ok": False, "error": "That email and password do not match."}, 401)
                 cookie = f"bs_session={ok}; Path=/; HttpOnly; SameSite=Lax; Max-Age={auth.max_age(bool(data.get('remember')))}"
                 return self.json({"ok": True, "next": self.safe_next(data.get("next"))}, 200, {"Set-Cookie": cookie})
-            if self.gate(path, [p for p in path.split("/") if p]):
+            pp = [p for p in path.split("/") if p]
+            if len(pp) == 3 and pp[0] == "onboard" and pp[2] == "tech":
+                import buyers
+                try:
+                    buyers.submit_tech(pp[1], data if isinstance(data, dict) else {})
+                    return self.json({"ok": True})
+                except ValueError as ex:
+                    return self.json({"ok": False, "error": str(ex)}, 400)
+            if self.gate(path, pp):
                 return
             if path == "/api/logout":
                 auth.logout(self.token())
