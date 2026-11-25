@@ -26,9 +26,9 @@ def deploy(name):
     prod = re.findall(r"Production\s+(https://\S+)", out)
     if code != 0 or not (alias or prod):
         return None, "deploy failed: " + out[-400:]
-    # prefer the project's own vercel.app address: a custom domain (e.g. lp.<brand>) can be attached before its DNS exists
-    stable = [u for u in alias if u.rstrip("/").endswith(f"bw-{name}.vercel.app")]
-    return (stable or alias or prod)[-1], ""
+    # always record the project's own vercel.app address: Vercel prints only the custom domain (e.g. lp.<brand>) once one is attached,
+    # and that address does not work until its DNS record exists
+    return f"https://bw-{name}.vercel.app", ""
 
 
 if __name__ == "__main__":
