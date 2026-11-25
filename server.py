@@ -21,6 +21,7 @@ import publish
 import ui2
 import ui_board
 import ui_buyers
+import ui_publishers
 import ui_pages
 import ui_review
 import ui_history
@@ -209,6 +210,8 @@ class H(BaseHTTPRequestHandler):
                 return self.send(200, ui_review.review_page(parts[1]))
             if parts == ["crm"]:
                 return self.send(200, ui2.crm_page())
+            if parts == ["publishers"]:
+                return self.send(200, ui_publishers.publishers_page())
             if parts == ["buyers"]:
                 host = self.headers.get("Host", "")
                 scheme = "http" if host.startswith(("localhost", "127.0.0.1")) else "https"

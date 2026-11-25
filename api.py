@@ -133,6 +133,10 @@ def review_payload(slug, page="index"):
 def post(path, d):
     s = d.get("slug")
     try:
+        if path == "/api/publishers/refresh":
+            import publishers
+            b = publishers.refresh()
+            return 200, {"ok": not b.get("errors"), "rows": len(b.get("rows", [])), "error": "; ".join(b.get("errors", []))}
         if path.startswith("/api/buyers/"):
             import buyers
             who = auth.who() or "studio"
