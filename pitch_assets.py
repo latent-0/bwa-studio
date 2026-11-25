@@ -155,7 +155,7 @@ SCRIPT_JS = r"""(function(){
   window.BWA_TRACKING=t;
   document.querySelectorAll('input[data-track]').forEach(function(i){i.value=t[i.getAttribute('data-track')]||'';});
   var f=document.getElementById('lead-form');
-  if(f){f.addEventListener('submit',function(ev){ev.preventDefault();f.innerHTML='<p style="margin:0;font-size:18px"><strong>Thank you.</strong> A travel expert will call you shortly.</p>';});}
+  if(f){f.addEventListener('submit',function(ev){ev.preventDefault();f.innerHTML='<p style="margin:0;font-size:18px"><strong>Thank you.</strong> We will call you shortly.</p>';});}
 })();
 (function(){
   var d=document, reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -207,4 +207,13 @@ SCRIPT_JS = r"""(function(){
     v.addEventListener('pause',function(){vid.classList.remove('playing');});
     var p=v.play();if(p&&p.catch){p.catch(function(){});}
   }
+  /* watch the full spokesperson video with sound in a player dialog; the hero loop pauses meanwhile */
+  var wb=d.querySelector('.watch'), dlg=d.getElementById('vmodal'), vf=d.getElementById('vfull');
+  if(wb&&dlg&&vf&&dlg.showModal){
+    wb.addEventListener('click',function(){if(!vf.src){vf.src=wb.getAttribute('data-src');}if(v){v.pause();}dlg.showModal();var q=vf.play();if(q&&q.catch){q.catch(function(){});}});
+    function shut(){vf.pause();if(dlg.open){dlg.close();}}
+    dlg.querySelector('.vclose').addEventListener('click',shut);
+    dlg.addEventListener('click',function(ev){if(ev.target===dlg){shut();}});
+    dlg.addEventListener('close',function(){vf.pause();if(v){var r=v.play();if(r&&r.catch){r.catch(function(){});}}wb.focus();});
+  } else if(wb){wb.addEventListener('click',function(){location.href=wb.getAttribute('data-src');});}
 })();"""

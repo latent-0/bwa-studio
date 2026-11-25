@@ -17,7 +17,25 @@ PARTNERS = {"flights": "licensed travel professionals and partners", "insurance"
             "addiction": "treatment providers and partners"}
 ICONS_STEP = ["chat", "search", "list", "cal", "heart"]
 EXTRA_CSS = (".hours{display:flex;align-items:center;gap:10px;margin:22px 0 0;color:var(--mut);font-size:15px}"
-             ".hours .i{font-size:18px;color:var(--a)}")
+             ".hours .i{font-size:18px;color:var(--a)}"
+             # hero upgrade: branded still with a slow push-in (variant B), floating branded image card, watch-the-video button and player
+             ".still{position:absolute;inset:0;overflow:hidden}.still img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:60% 45%;animation:kb 18s ease-in-out infinite alternate}"
+             "@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14) translate(-1.5%,-1%)}}"
+             ".vid:after{content:\"\";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 55%,rgba(7,12,24,.32));z-index:1}"
+             ".ovl{position:absolute;z-index:5;right:-26px;bottom:-34px;width:36%;max-width:230px;margin:0;border-radius:16px;overflow:hidden;border:4px solid #fff;"
+             "box-shadow:0 24px 50px rgba(7,23,63,.3);animation:float 7s ease-in-out infinite;animation-delay:-1.5s;aspect-ratio:4/3.1;background:var(--canvas2)}"
+             ".ovl img{width:100%;height:100%;object-fit:cover;display:block}"
+             ".watch{position:absolute;z-index:6;left:22px;top:22px;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px 0 14px;border:0;border-radius:999px;"
+             "background:rgba(10,14,24,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font:500 14px/1 var(--fb);cursor:pointer;transition:background .3s var(--ease),transform .3s var(--ease)}"
+             ".watch:hover{background:var(--a);transform:translateY(-2px)}.watch:focus-visible,.vclose:focus-visible{outline:3px solid #fff;outline-offset:3px}"
+             ".watch svg{width:16px;height:16px;fill:currentColor}"
+             ".vmodal{padding:0;border:0;background:#000;border-radius:16px;width:min(960px,94vw);max-height:90vh;overflow:visible;box-shadow:0 40px 100px rgba(0,0,0,.5)}"
+             ".vmodal::backdrop{background:rgba(5,8,16,.78);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}"
+             ".vmodal video{display:block;width:100%;max-height:86vh;border-radius:16px;background:#000}"
+             ".vclose{position:absolute;top:-16px;right:-16px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#101828;font:400 28px/1 var(--fb);cursor:pointer;z-index:2;box-shadow:0 8px 20px rgba(0,0,0,.3)}"
+             "@media(max-width:980px){.ovl{right:10px;bottom:-24px;width:34%}}"
+             "@media(max-width:640px){.media.has-ovl .chip{display:none}.ovl{width:38%;bottom:-18px;border-width:3px;border-radius:12px}.watch{left:12px;top:12px;font-size:13px;padding:0 14px 0 12px}.vclose{top:8px;right:8px}}"
+             "@media(prefers-reduced-motion:reduce){.still img,.ovl{animation:none!important}}")
 
 
 def _i(name, cls="i"):
@@ -48,7 +66,10 @@ def build_pitch_page(brand, pitch, ringba, everflow, has_file):
     icons_reason = ICONS_REASON if flights else ["shield" if i == "plane" else i for i in ICONS_REASON]
     partners = PARTNERS.get(brand.get("vertical"), "participating partners")
     cta = e(pitch["cta"])
-    solo = brand.get("variant") == "B"  # variant B has no hero video: the text takes the full width
+    variant_b = brand.get("variant") == "B"  # variant B has no hero video
+    # hero upgrade assets (hero_assets.py): a short branded loop, a branded still for variant B, a second branded image for the overlay card
+    has_loop, has_still, has_ovl = has_file("hero-loop.mp4"), has_file("hero-still.jpg"), has_file("overlay.jpg")
+    solo = variant_b and not has_still  # with no branded still, variant B's text takes the full width
 
     def num():
         return f'<span class="ringba-number">{phone}</span>'
@@ -56,9 +77,24 @@ def build_pitch_page(brand, pitch, ringba, everflow, has_file):
     css = CSS.replace("--a:#0b5ed7;--p:#0a2a6b;", f"--a:{brand['accent_color'] or '#0b5ed7'};--p:{brand['primary_color'] or '#0a2a6b'};")
     css = css.replace("--night:#07173f;", "--night:#07173f;--night:color-mix(in srgb,var(--p) 76%,#07090d);") + EXTRA_CSS
 
-    if brand.get("hero_video") and has_file(brand["hero_video"]):
+    full = brand.get("hero_video") if brand.get("hero_video") and has_file(brand["hero_video"]) else ("hero.mp4" if not variant_b and has_file("hero.mp4") else "")
+    watch = ""
+    if variant_b and has_still:
+        # no video on variant B: the branded still with a slow push-in
+        media = f'<div class="still"><img src="/assets/{slug}/hero-still.jpg" alt="{name}" fetchpriority="high"></div>'
+    elif has_loop:
+        # Flight Finder Pro model: a few seconds of branded footage on a silent loop; the full spokesperson video plays on request with sound
+        media = (f'<video id="v" autoplay muted loop playsinline preload="auto"' + (f' poster="/assets/{slug}/hero-still.jpg"' if has_still else "")
+                 + f'><source src="/assets/{slug}/hero-loop.mp4" type="video/mp4"></video>'
+                 + (f'<div class="fallback" id="vfb" style="background:#0b0f1a url(/assets/{slug}/hero-still.jpg) center/cover no-repeat"></div>' if has_still
+                    else f'<div class="fallback" id="vfb"><div>{_i(lead_icon)}{name}</div></div>')
+                 + f'<button class="play" id="play" aria-label="Play video"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></button>')
+        if full:
+            watch = (f'<button class="watch" type="button" data-src="/assets/{slug}/{q(full)}" aria-haspopup="dialog">'
+                     f'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Watch the video</button>')
+    elif full:
         poster = f' poster="/assets/{slug}/poster.jpg"' if has_file("poster.jpg") else ""
-        media = (f'<video id="v" autoplay muted loop playsinline preload="auto"{poster}><source src="/assets/{slug}/{q(brand["hero_video"])}" type="video/mp4"></video>'
+        media = (f'<video id="v" autoplay muted loop playsinline preload="auto"{poster}><source src="/assets/{slug}/{q(full)}" type="video/mp4"></video>'
                  + (f'<div class="fallback" id="vfb" style="background:#0b0f1a url(/assets/{slug}/poster.jpg) center/cover no-repeat"></div>' if has_file("poster.jpg")
                   else f'<div class="fallback" id="vfb"><div>{_i(lead_icon)}{name}</div></div>')
                  + f'<button class="play" id="play" aria-label="Play video"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></button>')
@@ -85,8 +121,12 @@ def build_pitch_page(brand, pitch, ringba, everflow, has_file):
 
     r = pitch["reasons"]["items"]
     tile_img = ""
-    if brand.get("tile_image") and has_file(brand["tile_image"]):
-        tile_img = f'<img src="/assets/{slug}/{q(brand["tile_image"])}" alt="" onerror="this.remove()">'
+    # the image tile shows a branded image too (Flight Finder Pro has its plane photo there); pick the one the hero is not already showing
+    # (variant B already shows both branded images in its hero, so its tile stays text only)
+    tile_file = brand.get("tile_image") if brand.get("tile_image") and has_file(brand.get("tile_image")) else \
+        ("hero-still.jpg" if has_still and not variant_b else "")
+    if tile_file:
+        tile_img = f'<img src="/assets/{slug}/{q(tile_file)}" alt="" loading="lazy" onerror="this.remove()">'
     order = [(1, 0), (2, 2), (3, 1), (4, 3), (5, 4), (6, 5), (7, 6)]  # tile class index -> reason index
     tiles = ""
     for cls_i, ri in order:
@@ -141,7 +181,11 @@ def build_pitch_page(brand, pitch, ringba, everflow, has_file):
             f'<main id="top"><section class="hero"><div class="wrap hero-grid{" solo" if solo else ""}"><div><span class="eyebrow rise" style="--i:0">{e(pitch["eyebrow"])}</span>'
             f'<h1 aria-label="{e(pitch["hero"])}">{_words(pitch["hero"], pitch.get("hero_accent_words", 0))}</h1><ul class="points rise" style="--i:5">{bullets}</ul>'
             f'<div class="cta-row rise" style="--i:6"><a class="btn" href="tel:{tel}">{_i("phone")}<span>{cta + ': ' + num() if brand.get('phone') else cta}</span>{_i(arrow_icon, "i arr")}</a><a class="btn ghost" href="#easy">See the easy way</a></div>{hours_html}</div>'
-            + ('' if solo else f'<div class="media rise" style="--i:3"><div class="vid" id="vid">{media}</div><span class="chip c1">{_i("person")}{e(badges[0])}</span><span class="chip c2">{_i("heart")}{e(badges[3])}</span></div>') + f'</div></section>\n'
-            f'<div class="marquee" aria-hidden="true"><div class="track">{marquee}</div></div>\n{compare}\n{bento}\n{steps}\n{free}\n{faq_sec}\n{close}</main>\n'
+            + ('' if solo else f'<div class="media rise{" has-ovl" if has_ovl else ""}" style="--i:3"><div class="vid" id="vid">{media}</div><span class="chip c1">{_i("person")}{e(badges[0])}</span><span class="chip c2">{_i("heart")}{e(badges[3])}</span>'
+                                 + (f'<figure class="ovl" aria-hidden="true"><img src="/assets/{slug}/overlay.jpg" alt="" loading="lazy"></figure>' if has_ovl else "")
+                                 + watch + '</div>') + f'</div></section>\n'
+            + ('<dialog class="vmodal" id="vmodal" aria-label="Video"><button class="vclose" type="button" aria-label="Close video">&times;</button>'
+               '<video id="vfull" controls playsinline preload="none"></video></dialog>\n' if watch else '')
+            + f'<div class="marquee" aria-hidden="true"><div class="track">{marquee}</div></div>\n{compare}\n{bento}\n{steps}\n{free}\n{faq_sec}\n{close}</main>\n'
             f'<footer><div class="wrap"><div class="links">{links}</div><p>&copy; {time.strftime("%Y")} {legal}. {name} is a marketing site that connects consumers with {partners}. See our Marketing Partners page for details. {e(pitch.get("disclaimer", ""))}</p></div></footer>\n'
             f'<div class="callbar"><a class="btn" href="tel:{tel}">{_i("phone")}<span>Call {num()}</span></a></div>\n<script>\n{SCRIPT_JS}\n</script>\n</body></html>')

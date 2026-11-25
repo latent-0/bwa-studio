@@ -35,6 +35,8 @@ def build(slug, variant, video=None):
         mb = compress(video, os.path.join(adir, "hero.mp4"), os.path.join(adir, "poster.jpg"), float(os.environ.get("POSTER_AT", "1")))
         brand["hero_video"] = "hero.mp4"
         print(f"  {slug}: hero video compressed to {mb:.1f} MB")
+    elif variant == "A" and os.path.exists(os.path.join(adir, "hero.mp4")):
+        brand["hero_video"] = "hero.mp4"  # no new video given: reuse the one already compressed, no re-encode
     core.build_page(brand, "")
     out = os.path.join(HERE, "out", slug)
     dest = os.path.join(DEST_ROOT, f"{slug}-{variant.lower()}")
@@ -58,6 +60,11 @@ def build(slug, variant, video=None):
             open(os.path.join(dest, f), "w", encoding="utf-8").write(html)
     if brand["hero_video"]:
         for f in ("hero.mp4", "poster.jpg"):
+            if os.path.exists(os.path.join(adir, f)):
+                shutil.copyfile(os.path.join(adir, f), os.path.join(dest, "assets", slug, f))
+    # hero upgrade assets (hero_assets.py): the loop only for variant A, the branded images for both
+    for f in (("hero-loop.mp4",) if variant == "A" else ()) + ("hero-still.jpg", "overlay.jpg"):
+        if os.path.exists(os.path.join(adir, f)):
             shutil.copyfile(os.path.join(adir, f), os.path.join(dest, "assets", slug, f))
     open(os.path.join(dest, "robots.txt"), "w").write("User-agent: *\nDisallow: /\n")
     json.dump({"$schema": "https://openapi.vercel.sh/vercel.json", "cleanUrls": True,
