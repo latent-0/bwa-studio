@@ -1,0 +1,30 @@
+{
+  "dni": "<script src=\"//b-js.ringba.com/CA4feee4c2ae4d4517870a7af501abf764\" async></script>",
+  "campaign": "Final Expense Store - Final Expense (CA4feee4c2ae4d4517870a7af501abf764)",
+  "channels": {
+    "search": {
+      "number": "(888) 865-1054",
+      "ready": false,
+      "ringba_publisher": "BWA FE - Search",
+      "note": "Unassigned in Ringba, quiet since Dec 2025"
+    },
+    "ctv": {
+      "number": "",
+      "ready": false,
+      "ringba_publisher": "BWA FE - CTV",
+      "note": "Buy a toll-free number (approval needed)"
+    },
+    "push": {
+      "number": "",
+      "ready": false,
+      "ringba_publisher": "BWA FE - Push",
+      "note": "Buy a toll-free number (approval needed)"
+    },
+    "email": {
+      "number": "(866) 661-3295",
+      "ready": false,
+      "ringba_publisher": "BWA FE - Email",
+      "note": "Unassigned in Ringba, quiet since Feb 2026"
+    }
+  }
+}

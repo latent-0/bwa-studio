@@ -22,6 +22,7 @@ import ui2
 import ui_board
 import ui_buyers
 import ui_publishers
+import ui_report
 import ui_pages
 import ui_review
 import ui_history
@@ -181,6 +182,11 @@ class H(BaseHTTPRequestHandler):
                     return self.json({"ok": False, "error": "Not allowed."}, 401)
                 t0 = time.time()
                 res = integrations.refresh(None, rebuild=True)
+                try:
+                    import lot
+                    lot.build(save=True)  # the daily snapshot the lot report compares against
+                except Exception:
+                    pass
                 return self.json({"ok": True, "brands": len(res), "seconds": round(time.time() - t0, 1)})
             if path == "/favicon.ico":
                 self.send_response(204)
@@ -210,6 +216,11 @@ class H(BaseHTTPRequestHandler):
                 return self.send(200, ui_review.review_page(parts[1]))
             if parts == ["crm"]:
                 return self.send(200, ui2.crm_page())
+            if parts == ["report"]:
+                return self.send(200, ui_report.report_page())
+            if parts == ["api", "report.txt"]:
+                import lot
+                return self.send(200, lot.as_text(lot.build(save=True)), "text/plain; charset=utf-8")
             if parts == ["publishers"]:
                 return self.send(200, ui_publishers.publishers_page())
             if parts == ["buyers"]:
