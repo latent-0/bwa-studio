@@ -204,7 +204,7 @@ def shell(title, body, active=None, crumbs="", extra_js=""):
                 f'<span class="avatar sm" style="--c:{e(b["accent_color"] or b["primary_color"] or "#6b8cff")}">{e(b["name"][:1])}</span>'
                 f'<span class="nm">{e(b["name"])}</span><span class="dot{" ok" if ready else ""}"></span></a>')
     ops_nav = "".join(f'<a class="nav-item{" active" if active == k else ""}" href="/{k}">{ico(ic)}<span class="nm">{lab}</span></a>'
-                      for k, ic, lab in (("board", "grid", "Priority board"), ("launch", "rocket", "Launch board"), ("review", "shield", "Legal review"), ("pages", "layers", "Landing pages"), ("ops", "chart", "Operations"), ("crm", "users", "CRM pipeline"), ("report", "spark", "Daily report"), ("publishers", "chart", "Publishers"), ("buyers", "check", "Partner onboarding"), ("integrations", "plug", "Integrations")))
+                      for k, ic, lab in (("board", "grid", "Priority board"), ("launch", "rocket", "Launch board"), ("review", "shield", "Legal review"), ("pages", "layers", "Landing pages"), ("ops", "chart", "Operations"), ("crm", "users", "CRM pipeline"), ("golive", "rocket", "Publisher go-live"), ("report", "spark", "Daily report"), ("publishers", "chart", "Publishers"), ("buyers", "check", "Partner onboarding"), ("integrations", "plug", "Integrations")))
     src = core.config_source()
     live = "live" in src.lower()
     who = auth.who()
@@ -230,6 +230,14 @@ def ring(done, total):
     return (f'<svg class="ring" viewBox="0 0 54 54"><circle class="bg" cx="27" cy="27" r="22"/>'
             f'<circle class="fg" cx="27" cy="27" r="22" stroke-dasharray="{c:.1f}" stroke-dashoffset="{off:.1f}" transform="rotate(-90 27 27)"/>'
             f'<text x="27" y="31.5">{done}/{total}</text></svg>')
+
+
+def _golive():
+    try:
+        import ui_golive
+        return ui_golive.section()
+    except Exception as ex:
+        return f'<p class="note2">Publisher go-live board could not load: {e(str(ex)[:140])}</p>'
 
 
 def dashboard():
@@ -265,6 +273,7 @@ def dashboard():
     else:
         met, note = '<div class="empty" style="grid-column:1/-1">No runs yet. Open a brand and hit Generate.</div>', ""
     body = (f'<div class="pagehead"><div><h1>Brands</h1><p>One row in the Sheet is one brand. Generate a page, check the go-live list, ship.</p></div></div>'
+            f'{_golive()}'
             f'<div class="stats"><div class="stat"><span>Brands</span><b>{len(brands)}</b></div><div class="stat"><span>Ready to go live</span><b>{ready}<small>/ {len(brands)}</small></b></div>'
             f'<div class="stat"><span>Live now</span><b>{nlive}<small>/ {len(brands)}</small></b></div>'
             f'<div class="stat"><span>Pages generated</span><b>{m["runs"]}</b></div></div>'

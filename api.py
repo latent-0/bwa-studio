@@ -135,6 +135,10 @@ def review_payload(slug, page="index"):
 def post(path, d):
     s = d.get("slug")
     try:
+        if path == "/api/golive/refresh":
+            import golive
+            b = golive.build()
+            return 200, {"ok": not b.get("errors"), "rows": len(b.get("rows", [])), "error": "; ".join(b.get("errors", []))}
         if path == "/api/publishers/refresh":
             import publishers
             b = publishers.refresh()

@@ -216,6 +216,9 @@ class H(BaseHTTPRequestHandler):
                 return self.send(200, ui_review.review_page(parts[1]))
             if parts == ["crm"]:
                 return self.send(200, ui2.crm_page())
+            if parts == ["golive"]:
+                import ui_golive
+                return self.send(200, ui_golive.golive_page())
             if parts == ["report"]:
                 return self.send(200, ui_report.report_page())
             if parts == ["api", "report.txt"]:
