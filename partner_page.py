@@ -196,7 +196,7 @@ def onboard_page(bid):
     all_done = p["stages_done"] == len(sg)
     cur = next((x for x in sg if x["state"] == "current"), sg[-1])
     stops = "".join(f'<a class="stop {x["state"]}" href="#s-{x["key"]}"><span class="dot">{icon("check" if x["state"] == "done" else x["key"])}</span>'
-                    f'<span><b>{e(x["label"])}</b><small>{"Done" if x["state"] == "done" else "You are here" if x["state"] == "current" else f"Stop {i + 1}"}</small></span></a>'
+                    f'<span><b>{e(x["label"])}</b><small>{("Done " + buyers.stamp(x["done_at"])[:6]) if x["state"] == "done" else "You are here" if x["state"] == "current" else f"Stop {i + 1}"}</small></span></a>'
                     for i, x in enumerate(sg))
     chips = "".join(f"<span>{e(t)}</span>" for t in ((("You send " if pub else "You buy ") + (buyers.PRODUCTS.get(b.get("product"), "") if not pub else "traffic")),
                                                     b.get("payout") and ("Payout " + b["payout"]), b.get("vertical")) if t)

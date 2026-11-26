@@ -148,6 +148,9 @@ def post(path, d):
             if path == "/api/buyers/step":
                 buyers.set_step(d.get("id", ""), d.get("key", ""), d.get("state", ""), who, d.get("note", ""))
                 return 200, {"ok": True}
+            if path == "/api/buyers/stage":
+                buyers.complete_stage(d.get("id", ""), d.get("stage", ""), who)
+                return 200, {"ok": True}
             if path == "/api/buyers/settings":
                 return 200, {"ok": True, "settings": buyers.save_settings(d, who)}
             if path == "/api/buyers/email":

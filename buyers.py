@@ -165,6 +165,7 @@ def stages(b):
     st = b.get("steps", {})
     k = kind_of(b)
     out, current_found = [], False
+    entered = b.get("created", "")  # a milestone's clock starts when the previous one was reached
     for key, label, blurb, by_kind in STAGES:
         keys = by_kind[k]
         done = all(st.get(x, {}).get("state") == "done" for x in keys)
@@ -172,8 +173,40 @@ def stages(b):
         state = "done" if done else ("current" if not current_found else "upcoming")
         if not done and not current_found:
             current_found = True
-        out.append({"key": key, "label": label, "blurb": blurb, "state": state, "started": started, "steps": keys})
+        done_at = max((st[x].get("ts", "") for x in keys if x in st), default="") if done else ""
+        out.append({"key": key, "label": label, "blurb": blurb, "state": state, "started": started, "steps": keys,
+                    "entered_at": entered if state in ("done", "current") else "", "done_at": done_at,
+                    "days": _days(entered, done_at) if done else (_days(entered, "") if state == "current" else None)})
+        if done:
+            entered = max(entered, done_at)
     return out
+
+
+def _days(start, end):
+    """Whole days between two 'YYYY-MM-DD HH:MM:SS' stamps (end blank = now)."""
+    try:
+        a = time.mktime(time.strptime(start[:19], "%Y-%m-%d %H:%M:%S"))
+        z = time.mktime(time.strptime(end[:19], "%Y-%m-%d %H:%M:%S")) if end else time.time()
+        return max(0, int((z - a) // 86400))
+    except Exception:
+        return None
+
+
+STUCK_DAYS = 7  # a partner sitting in one milestone longer than this is flagged on the board
+
+
+def complete_stage(bid, stage_key, actor):
+    """Tick every step of one milestone at once."""
+    b = get(bid)
+    if not b:
+        raise ValueError("That partner is no longer here. Refresh the page.")
+    by_kind = next((x[3] for x in STAGES if x[0] == stage_key), None)
+    if not by_kind:
+        raise ValueError("Unknown milestone.")
+    for k in by_kind[kind_of(b)]:
+        if b.get("steps", {}).get(k, {}).get("state") != "done":
+            b = set_step(bid, k, "done", actor, "milestone ticked")
+    return b
 
 
 def progress(b):

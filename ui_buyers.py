@@ -40,6 +40,20 @@ ui.CSS = ui.CSS + """
 .emdlg::backdrop{background:rgba(10,16,30,.55)}.emhd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}.emhd b{flex:1;font-size:14px;min-width:200px}
 .emdlg iframe{display:block;width:100%;height:min(66vh,720px);border:0;background:#f5f7fb}.emft{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
 .emft .mut{font-size:12px;flex:1;min-width:200px}
+.msb{display:grid;grid-template-columns:repeat(6,minmax(150px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:18px}
+.msc{background:var(--surface2);border-radius:12px;padding:10px;min-height:120px;display:flex;flex-direction:column;gap:8px}
+.msc h4{margin:0 0 2px;display:flex;align-items:center;justify-content:space-between;gap:6px;font:600 12.5px var(--fb)}.msc h4>span:last-child{font:600 11px var(--fm);color:var(--mut)}
+.msc h4 i{font-style:normal;font:700 10.5px var(--fb);width:20px;height:20px;border-radius:50%;display:inline-grid;place-items:center;background:var(--surface);color:var(--mut);margin-right:6px}
+.mcard{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 10px;transition:border-color .2s,transform .2s}
+.mcard:hover{border-color:var(--accent);transform:translateY(-1px)}.mcard b{display:block;font:600 12.5px var(--fb);line-height:1.3}.mcard small{display:block;color:var(--mut);font-size:11.5px;margin-top:3px;line-height:1.35}
+.mcard .kd{font:600 10px var(--fb);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}.mcard .age{display:block;margin-top:4px;font:600 11px var(--fm);color:var(--mut)}.mcard .age.stuck{color:var(--bad)}
+.mcard.live{border-color:color-mix(in srgb,var(--ok) 45%,var(--line));background:color-mix(in srgb,var(--ok) 6%,var(--surface))}
+.msc .none{font-size:12px;color:var(--faint);text-align:center;padding:14px 0}
+.mstl{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:0 0 16px}
+.mstl div{border-radius:9px;padding:7px 8px;background:var(--surface2);font-size:11.5px;line-height:1.3;color:var(--mut)}.mstl b{display:block;font:600 11.5px var(--fb);color:var(--ink)}
+.mstl div.done{background:color-mix(in srgb,var(--ok) 10%,transparent)}.mstl div.current{background:#fff1d6}.mstl div.current b{color:#7a4a00}
+.stg h4 .msdone{margin-left:auto;height:26px;padding:0 10px;font-size:11.5px}
+@media(max-width:700px){.mstl{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:1100px){.bybody{grid-template-columns:1fr}.byform{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.byform{grid-template-columns:1fr}.byform label.w2{grid-column:auto}.bycard>summary{grid-template-columns:1fr}.byright{justify-content:flex-start}}
 """
@@ -93,7 +107,8 @@ def _steps(b):
                           for v, lab2 in (("todo", "To do"), ("sent", "Sent"), ("done", "Done")))
             rows += f'<div class="st2 {state if state != "todo" else ""}"><div><b>{e(lab)}</b><small>{e(desc)}{who}{note}</small></div><div class="seg" role="group" aria-label="{e(lab)}">{seg}</div></div>'
         tag = {"done": "Done", "current": "Current", "upcoming": "Upcoming"}[sg["state"]]
-        out += f'<div class="stg"><h4>{e(sg["label"])}<span class="{sg["state"]}">{tag}</span></h4><div class="steps2">{rows}</div></div>'
+        btn = f'<button class="btn msdone" type="button" data-stage="{sg["key"]}">{ico("check")}Milestone done</button>' if sg["state"] == "current" else ""
+        out += f'<div class="stg"><h4>{e(sg["label"])}<span class="{sg["state"]}">{tag}</span>{btn}</h4><div class="steps2">{rows}</div></div>'
     return out
 
 
@@ -104,6 +119,44 @@ def _tech(b):
     labels = dict(buyers.tech_fields(b))
     items = "".join(f'<dt>{e(labels.get(k, k))}</dt><dd>{e(v)}</dd>' for k, v in t.items() if k != "submitted")
     return f'<dl class="tech"><dt>Sent by the partner on {e(buyers.stamp(t.get("submitted", "")))}</dt><dd></dd>{items}</dl>'
+
+
+def _timeline(b):
+    cells = ""
+    for i, sg in enumerate(buyers.stages(b)):
+        if sg["state"] == "done":
+            sub = buyers.stamp(sg["done_at"])[:6] + (f' &middot; took {sg["days"]}d' if sg["days"] is not None else "")
+        elif sg["state"] == "current":
+            sub = f'{sg["days"]} days here' if sg["days"] is not None else "In progress"
+        else:
+            sub = "Not yet"
+        cells += f'<div class="{sg["state"]}"><b>{i + 1}. {e(sg["label"])}</b>{sub}</div>'
+    return f'<div class="mstl">{cells}</div>'
+
+
+def _board(rows, names):
+    """Six milestone columns; each partner sits in the milestone it is working on (finished partners in the last column, marked live)."""
+    cols = {x[0]: [] for x in buyers.STAGES}
+    for b in rows:
+        sg = buyers.stages(b)
+        cur = next((x for x in sg if x["state"] == "current"), None)
+        cols[(cur or sg[-1])["key"]].append((b, cur, sg))
+    out = ""
+    for i, (key, label, _blurb, _k) in enumerate(buyers.STAGES):
+        cards = ""
+        for b, cur, sg in sorted(cols[key], key=lambda t: -((t[1] or {}).get("days") or 0)):
+            p = buyers.progress(b)
+            if cur:
+                d = cur.get("days")
+                age = f'<span class="age{" stuck" if d is not None and d > buyers.STUCK_DAYS else ""}">{d if d is not None else "?"}d in this milestone</span>'
+                nxt = f'<small>Next: {e(p["next"])}</small>'
+            else:
+                age, nxt = '<span class="age" style="color:var(--ok)">Live</span>', f'<small>Live since {buyers.stamp(sg[-1]["done_at"])}</small>'
+            cards += (f'<a class="mcard{"" if cur else " live"}" href="#p-{e(b["id"])}" data-open="{e(b["id"])}"><span class="kd">{e(buyers.KINDS[buyers.kind_of(b)])}</span>'
+                      f'<b>{e(b.get("company") or "Partner")}</b><small>{e(b.get("vertical") or names.get(b.get("brand"), ""))}</small>{nxt}{age}</a>')
+        out += (f'<div class="msc"><h4><span><i>{i + 1}</i>{e(label)}</span><span>{len(cols[key])}</span></h4>'
+                f'{cards or "<div class=none>No one here</div>"}</div>')
+    return f'<div class="msb" role="region" aria-label="Partners by milestone">{out}</div>'
 
 
 def buyers_page(host=""):
@@ -121,9 +174,9 @@ def buyers_page(host=""):
         ready = '<span class="chip2 ok">Ready for Ops</span>' if p["ready"] else f'<span class="mut" style="font-size:12px">Stage {p["stage"]}: {e(p["stage_label"])}</span>'
         link = f"{host}/onboard/{b['id']}"
         test_btn = ('<button class="btn" type="button" data-test>' + ico("phone") + 'Check test call</button>') if buyers.kind_of(b) == "buyer" and b.get("product") == "calls" and b.get("brand") else ""
-        cards += (f'<details class="bycard" data-id="{e(b["id"])}"><summary><div><div class="byname">{e(buyers.deal_name(b))}</div><div class="bymeta">{meta or "&nbsp;"}</div></div>'
+        cards += (f'<details class="bycard" id="p-{e(b["id"])}" data-id="{e(b["id"])}"><summary><div><div class="byname">{e(buyers.deal_name(b))}</div><div class="bymeta">{meta or "&nbsp;"}</div></div>'
                   f'<div class="byright">{ready}<span class="road6" aria-label="{p["stages_done"]} of 6 stages done">{dots}</span><span class="mut" style="font:500 12px var(--fm)">{p["stages_done"]}/6</span></div></summary>'
-                  f'<div class="bybody"><div><p class="bysec">Roadmap and steps</p>{"<div class=readyb>Paperwork, tech details and test are done. Hand off to Ops.</div>" if p["ready"] else ""}'
+                  f'<div class="bybody"><div><p class="bysec">Milestones</p>{_timeline(b)}<p class="bysec">Steps by milestone</p>{"<div class=readyb>Paperwork, tech details and test are done. Hand off to Ops.</div>" if p["ready"] else ""}'
                   f'{_steps(b)}<div class="byact">{test_btn}</div></div>'
                   f'<div><p class="bysec">Partner\'s onboarding page</p><div class="olink"><input readonly value="{e(link)}" aria-label="Onboarding link"><button class="btn" type="button" data-copy>{ico("copy")}Copy</button>'
                   f'<a class="btn" href="/onboard/{e(b["id"])}" target="_blank" rel="noopener">{ico("ext")}Open</a></div>'
@@ -162,7 +215,8 @@ def buyers_page(host=""):
             f'<label class="w2">Payment setup<input name="payment_url" value="{e(s["payment_url"])}" placeholder="https://"></label></div>'
             f'<p class="note2" style="margin-top:12px">Card details never reach the studio: the deposit step sends the buyer to your payment provider\'s hosted page.</p>'
             f'<div class="byact"><button class="btn primary" type="button" id="savesettings">Save team, links and signature</button></div></div></details>'
-            f'<div class="bylist">{cards}</div>'
+            + (f'<p class="bysec" style="margin-top:4px">Milestone board <span class="mut" style="text-transform:none;letter-spacing:0;font-weight:500">&middot; red means more than {buyers.STUCK_DAYS} days in one milestone</span></p>{_board(rows, names)}' if rows else "")
+            + f'<div class="bylist">{cards}</div>'
             f'<dialog class="emdlg" id="emdlg" aria-label="Welcome email"><div class="emhd"><b id="emsubj">Welcome email</b><button class="btn" type="button" id="emclose">Close</button></div>'
             f'<iframe id="emframe" title="Welcome email preview" sandbox=""></iframe><div class="emft"><span class="mut" id="emnote">Copy it into your email (it keeps the design), or open it in your mail app with the plain version. Then mark "Welcome email sent".</span>'
             f'<button class="btn primary" type="button" id="emcopy">{ico("copy")}Copy email</button><a class="btn" id="emmail" href="#">{ico("ext")}Open in mail app</a>'
@@ -181,7 +235,9 @@ document.getElementById('emclose').onclick=function(){dlg.close();};
 document.getElementById('emcopy').onclick=function(){if(!cur){return;}try{var item=new ClipboardItem({'text/html':new Blob([cur.html],{type:'text/html'}),'text/plain':new Blob([cur.text],{type:'text/plain'})});navigator.clipboard.write([item]).then(function(){toast('Email copied. Paste it into a new email.',true);},function(){navigator.clipboard.writeText(cur.text);toast('Copied the plain version',true);});}catch(e){navigator.clipboard.writeText(cur.text);toast('Copied the plain version',true);}};
 document.getElementById('emdl').onclick=function(){if(!cur){return;}var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([cur.html],{type:'text/html'}));a.download='welcome-email.html';a.click();};
 document.getElementById('emsent').onclick=function(){if(!curId){return;}post('/api/buyers/step',{id:curId,key:'email',state:'done'},function(){sessionStorage.setItem('byopen',curId);location.reload();});};
+document.querySelectorAll('[data-open]').forEach(function(a){a.onclick=function(ev){ev.preventDefault();var el=document.getElementById('p-'+a.getAttribute('data-open'));if(el){el.open=true;el.scrollIntoView({block:'start',behavior:'smooth'});}};});
 document.querySelectorAll('.bycard').forEach(function(c){var id=c.getAttribute('data-id');
+ c.querySelectorAll('[data-stage]').forEach(function(b){b.onclick=function(){post('/api/buyers/stage',{id:id,stage:b.getAttribute('data-stage')},function(){toast('Milestone done',true);sessionStorage.setItem('byopen',id);location.reload();});};});
  c.querySelectorAll('.seg button').forEach(function(b){b.onclick=function(){post('/api/buyers/step',{id:id,key:b.getAttribute('data-step'),state:b.getAttribute('data-state')},function(){sessionStorage.setItem('byopen',id);location.reload();});};});
  var sv=c.querySelector('[data-save]');if(sv){sv.onclick=function(){var d=data(c.querySelector('.byform'));d.id=id;post('/api/buyers/save',d,function(){sessionStorage.setItem('byopen',id);location.reload();});};}
  var ar=c.querySelector('[data-archive]');if(ar){ar.onclick=function(){post('/api/buyers/save',{id:id,archived:true},function(){location.reload();});};}
